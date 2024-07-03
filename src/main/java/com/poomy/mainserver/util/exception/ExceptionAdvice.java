@@ -92,6 +92,13 @@ public class ExceptionAdvice {
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiErrorResult(response));
 	}
 
+	@ExceptionHandler(InvalidTokenException.class)
+	protected ResponseEntity<ApiErrorResult> handleInvalidTokenException(InvalidTokenException e) {
+		log.error("InvalidTokenException : {}", e.getMessage());
+		final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TOKEN, e.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiErrorResult(response));
+	}
+
 	/**
 	 * 비즈니스 로직상의 에러
 	 */
