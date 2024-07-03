@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(title = "Poomy Service API 명세서",
                 description = "Poomy 어플 서비스 API 명세서",
                 version = "v1"))
+
 @Configuration
 public class SwaggerConfig {
 
@@ -23,9 +24,8 @@ public class SwaggerConfig {
         Components components = new Components()
                 .addSecuritySchemes(jwtSchemeName, new SecurityScheme()
                         .name(jwtSchemeName)
-                        .type(SecurityScheme.Type.HTTP)
+                        .type(SecurityScheme.Type.APIKEY)
                         .in(SecurityScheme.In.HEADER)
-                        .scheme("bearer")
                         .bearerFormat("JWT"));
 
         return new OpenAPI()

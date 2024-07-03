@@ -3,6 +3,7 @@ package com.poomy.mainserver.util.exception;
 import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import com.poomy.mainserver.util.exception.common.CommonException;
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -90,6 +91,27 @@ public class ExceptionAdvice {
 		log.error("handleHttpRequestMethodNotSupportedException {}", e.getMessage());
 		final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiErrorResult(response));
+	}
+
+	@ExceptionHandler(InvalidTokenException.class)
+	protected ResponseEntity<ApiErrorResult> handleInvalidTokenException(InvalidTokenException e) {
+		log.error("InvalidTokenException : {}", e.getMessage());
+		final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TOKEN, e.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiErrorResult(response));
+	}
+
+	@ExceptionHandler(java.nio.file.AccessDeniedException.class)
+	protected ResponseEntity<ApiErrorResult> handleAccessDeniedException(Exception e) {
+		log.error("handleAccessDeniedException {}", e.getMessage());
+		final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiErrorResult(response));
+	}
+
+	@ExceptionHandler(JwtException.class)
+	protected ResponseEntity<ApiErrorResult> handleJwtException(JwtException e) {
+		log.error("handleJwtException {}", e.getMessage());
+		final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiErrorResult(response));
 	}
 
 	/**
