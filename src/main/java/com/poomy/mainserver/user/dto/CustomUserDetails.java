@@ -3,6 +3,7 @@ package com.poomy.mainserver.user.dto;
 import com.poomy.mainserver.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Builder
+@ToString
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 

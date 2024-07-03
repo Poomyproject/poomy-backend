@@ -16,7 +16,7 @@ public class JWTService {
     public String createJwt(UserEntity userEntity){
         String googleEmail = userEntity.getGoogleEmail();
         String role = userEntity.getRole().name();
-        String token = jwtUtil.createJwt(googleEmail, role, 60*60*10L);
+        String token = jwtUtil.createJwt(googleEmail, role, 1000 * 60 * 60L);
         return "Bearer "+token;
     }
 

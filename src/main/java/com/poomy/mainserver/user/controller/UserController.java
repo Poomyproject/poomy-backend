@@ -1,9 +1,10 @@
 package com.poomy.mainserver.user.controller;
 
 import com.poomy.mainserver.user.api.UserApi;
+import com.poomy.mainserver.user.dto.RegisterNickNameReqDto;
 import com.poomy.mainserver.user.dto.LoginGoogleReqDto;
 import com.poomy.mainserver.user.dto.LoginPoomyReqDto;
-import com.poomy.mainserver.user.dto.LoginResDto;
+import com.poomy.mainserver.user.dto.UserResDto;
 import com.poomy.mainserver.user.entity.UserEntity;
 import com.poomy.mainserver.user.mapper.UserMapper;
 import com.poomy.mainserver.user.service.GoogleService;
@@ -33,16 +34,24 @@ public class UserController implements UserApi {
         String jwtToken = jwtService.createJwt(user);
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
-                .body(new ApiResult<>(userMapper.toLoginResDto(user)));
+                .body(new ApiResult<>(userMapper.toUserResDto(user)));
     }
 
     @Override
-    public ResponseEntity<ApiResult<LoginResDto>> loginPoomy(LoginPoomyReqDto loginPoomyReqDto) {
+    public ResponseEntity<ApiResult<UserResDto>> loginPoomy(LoginPoomyReqDto loginPoomyReqDto) {
         UserEntity user = userService.loginPoomy(loginPoomyReqDto.getGoogleEmail());
         String jwtToken = jwtService.createJwt(user);
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
-                .body(new ApiResult<>(userMapper.toLoginResDto(user)));
+                .body(new ApiResult<>(userMapper.toUserResDto(user)));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<UserResDto>> registerNickName(RegisterNickNameReqDto registerNickNameReqDto) {
+        log.info("register nickName : {}", registerNickNameReqDto.getNickName());
+        Integer userId = userService.getUserId();
+        UserEntity userEntity = userService.registerNickName(userId, registerNickNameReqDto.getNickName());
+        return ResponseEntity.ok(new ApiResult<>(userMapper.toUserResDto(userEntity)));
     }
 
 }

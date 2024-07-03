@@ -1,8 +1,9 @@
 package com.poomy.mainserver.user.api;
 
+import com.poomy.mainserver.user.dto.RegisterNickNameReqDto;
 import com.poomy.mainserver.user.dto.LoginGoogleReqDto;
 import com.poomy.mainserver.user.dto.LoginPoomyReqDto;
-import com.poomy.mainserver.user.dto.LoginResDto;
+import com.poomy.mainserver.user.dto.UserResDto;
 import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,9 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "User API", description = "User 관련된 API")
 @RequestMapping("/api/users")
@@ -33,6 +32,12 @@ public interface UserApi {
     @ApiResponse(responseCode = "400", description = "Bad Request",
             content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
     @PostMapping("/login/poomy")
-    ResponseEntity<ApiResult<LoginResDto>> loginPoomy(@Valid @RequestBody LoginPoomyReqDto loginGoogleReqDto);
+    ResponseEntity<ApiResult<UserResDto>> loginPoomy(@Valid @RequestBody LoginPoomyReqDto loginGoogleReqDto);
 
+    @Operation(summary = "닉네임이 등록", description = "닉네임 중복 여부를 검사하여 등록이 되지 않을 경우 등록한다.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad Request",
+            content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
+    @GetMapping("/register")
+    ResponseEntity<ApiResult<UserResDto>> registerNickName(@Valid @ModelAttribute RegisterNickNameReqDto registerNickNameReqDto);
 }

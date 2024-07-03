@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 @Table(name = "users")
 public class UserEntity {
 

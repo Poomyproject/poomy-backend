@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class LoginResDto {
+public class UserResDto {
 
     private String googleEmail;
     private String nickName;
