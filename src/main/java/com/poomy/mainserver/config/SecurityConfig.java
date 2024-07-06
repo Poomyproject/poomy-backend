@@ -35,7 +35,7 @@ public class SecurityConfig {
                         "/v2/api-docs", "/v3/api-docs", "/v3/api-docs/**", "/swagger-resources",
                         "/swagger-resources/**", "/configuration/ui", "/configuration/security", "/swagger-ui/**",
                         "/webjars/**", "/swagger-ui.html").permitAll()
-                .requestMatchers("/api/users/login/**").permitAll()
+                .requestMatchers("/api/users/login/**", "/api/categories/atmospheres").permitAll()
                 .anyRequest().authenticated());
 
         http.exceptionHandling(exceptionHandling -> exceptionHandling
