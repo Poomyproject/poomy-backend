@@ -1,8 +1,9 @@
 package com.poomy.mainserver.category.controller;
 
 import com.poomy.mainserver.category.api.CategoryApi;
-import com.poomy.mainserver.category.dto.AtmosphereResDto;
+import com.poomy.mainserver.category.dto.CategoryResDto;
 import com.poomy.mainserver.category.entity.AtmosphereEntity;
+import com.poomy.mainserver.category.entity.HotPlaceEntity;
 import com.poomy.mainserver.category.mapper.CategoryMapper;
 import com.poomy.mainserver.category.service.CategoryService;
 import com.poomy.mainserver.util.api.ApiResult;
@@ -22,10 +23,18 @@ public class CategoryController implements CategoryApi {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public ResponseEntity<ApiResult<List<AtmosphereResDto>>> getAtmospheres() {
+    public ResponseEntity<ApiResult<List<CategoryResDto>>> getAtmospheres() {
         List<AtmosphereEntity> atmospheres = categoryService.getAtmospheres();
-        List<AtmosphereResDto> atmosphereResDtos = atmospheres.stream()
-                .map(categoryMapper::toAtmosphereResDto).toList();
+        List<CategoryResDto> atmosphereResDtos = atmospheres.stream()
+                .map(categoryMapper::toCategoryResDto).toList();
         return ResponseEntity.ok(new ApiResult<>(atmosphereResDtos));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<List<CategoryResDto>>> getHotPlaces() {
+        List<HotPlaceEntity> hotPlaces = categoryService.getHotPlaces();
+        List<CategoryResDto> hotPlaceResDtos = hotPlaces.stream()
+                .map(categoryMapper::toCategoryResDto).toList();
+        return ResponseEntity.ok(new ApiResult<>(hotPlaceResDtos));
     }
 }

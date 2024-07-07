@@ -1,7 +1,7 @@
 package com.poomy.mainserver.category.api;
 
-import com.poomy.mainserver.category.dto.AtmosphereResDto;
-import com.poomy.mainserver.category.dto.swagger.GetAtmospheresApiResult;
+import com.poomy.mainserver.category.dto.CategoryResDto;
+import com.poomy.mainserver.category.dto.swagger.CategoryApiResult;
 import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,10 +21,18 @@ public interface CategoryApi {
 
     @Operation(summary = "선택 가능한 취향 리스트", description = "사용자가 선택 가능한 취향들을 불러온다.")
     @ApiResponse(responseCode = "200", description = "OK",
-            content = @Content(schema = @Schema(implementation = GetAtmospheresApiResult.class)))
+            content = @Content(schema = @Schema(implementation = CategoryApiResult.class)))
     @ApiResponse(responseCode = "500", description = "Internal Server Error",
             content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
     @GetMapping("/atmospheres")
-    ResponseEntity<ApiResult<List<AtmosphereResDto>>> getAtmospheres();
+    ResponseEntity<ApiResult<List<CategoryResDto>>> getAtmospheres();
+
+    @Operation(summary = "선택 가능한 핫 플레이스 리스트", description = "사용자가 선택 가능한 핫 플레이스들을 불러온다.")
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(schema = @Schema(implementation = CategoryApiResult.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+            content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
+    @GetMapping("/hot-places")
+    ResponseEntity<ApiResult<List<CategoryResDto>>> getHotPlaces();
 
 }

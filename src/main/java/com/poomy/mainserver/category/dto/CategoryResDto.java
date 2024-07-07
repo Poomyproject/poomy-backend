@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class AtmosphereResDto {
+public class CategoryResDto {
 
     private Integer id;
 
