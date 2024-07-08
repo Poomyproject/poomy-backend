@@ -8,7 +8,7 @@ import lombok.*;
 @ToString
 @Getter
 @Table(name = "atmospheres")
-public class AtmosphereEntity {
+public class Atmosphere {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
 package com.poomy.mainserver.category.service;
 
-import com.poomy.mainserver.category.entity.AtmosphereEntity;
-import com.poomy.mainserver.category.entity.HotPlaceEntity;
+import com.poomy.mainserver.category.entity.Atmosphere;
+import com.poomy.mainserver.category.entity.HotPlace;
 import com.poomy.mainserver.category.repository.AtmosphereRepository;
 import com.poomy.mainserver.category.repository.HotPlaceRepository;
 import lombok.AllArgsConstructor;
@@ -18,12 +18,12 @@ public class CategoryService {
     private final HotPlaceRepository hotPlaceRepository;
 
     @Transactional
-    public List<AtmosphereEntity> getAtmospheres() {
+    public List<Atmosphere> getAtmospheres() {
         return atmosphereRepository.findAll();
     }
 
     @Transactional
-    public List<HotPlaceEntity> getHotPlaces(){
+    public List<HotPlace> getHotPlaces(){
         return hotPlaceRepository.findAll();
     }
 }

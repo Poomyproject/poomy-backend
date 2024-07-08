@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Table(name = "hot_places")
-public class HotPlaceEntity {
+public class HotPlace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
