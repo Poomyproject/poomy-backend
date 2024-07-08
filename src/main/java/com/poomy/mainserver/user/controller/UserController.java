@@ -5,7 +5,7 @@ import com.poomy.mainserver.user.dto.RegisterNickNameReqDto;
 import com.poomy.mainserver.user.dto.LoginGoogleReqDto;
 import com.poomy.mainserver.user.dto.LoginPoomyReqDto;
 import com.poomy.mainserver.user.dto.UserResDto;
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.mapper.UserMapper;
 import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
@@ -30,7 +30,7 @@ public class UserController implements UserApi {
     public ResponseEntity<ApiResult<?>> loginGoogle(LoginGoogleReqDto loginGoogleReqDto) {
 
         String googleEmail = googleService.extractGoogleEmail(loginGoogleReqDto.getIdToken());
-        UserEntity user = userService.loginGoogle(googleEmail);
+        User user = userService.loginGoogle(googleEmail);
         String jwtToken = jwtService.createJwt(user);
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
@@ -39,7 +39,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<ApiResult<UserResDto>> loginPoomy(LoginPoomyReqDto loginPoomyReqDto) {
-        UserEntity user = userService.loginPoomy(loginPoomyReqDto.getGoogleEmail());
+        User user = userService.loginPoomy(loginPoomyReqDto.getGoogleEmail());
         String jwtToken = jwtService.createJwt(user);
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
@@ -50,8 +50,8 @@ public class UserController implements UserApi {
     public ResponseEntity<ApiResult<UserResDto>> registerNickName(RegisterNickNameReqDto registerNickNameReqDto) {
         log.info("register nickName : {}", registerNickNameReqDto.getNickName());
         Integer userId = userService.getUserId();
-        UserEntity userEntity = userService.registerNickName(userId, registerNickNameReqDto.getNickName());
-        return ResponseEntity.ok(new ApiResult<>(userMapper.toUserResDto(userEntity)));
+        User user = userService.registerNickName(userId, registerNickNameReqDto.getNickName());
+        return ResponseEntity.ok(new ApiResult<>(userMapper.toUserResDto(user)));
     }
 
 }

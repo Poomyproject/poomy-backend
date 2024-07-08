@@ -1,7 +1,7 @@
 package com.poomy.mainserver.user.mapper;
 
 import com.poomy.mainserver.user.dto.UserResDto;
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
@@ -12,6 +12,6 @@ import org.springframework.stereotype.Component;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface UserMapper{
 
-    UserResDto toUserResDto(UserEntity userEntity);
+    UserResDto toUserResDto(User user);
 
 }

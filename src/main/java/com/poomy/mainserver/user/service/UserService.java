@@ -1,7 +1,7 @@
 package com.poomy.mainserver.user.service;
 
 import com.poomy.mainserver.user.dto.CustomUserDetails;
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.repository.UserRepository;
 import com.poomy.mainserver.user.type.UserRoleType;
 import com.poomy.mainserver.util.exception.common.BError;
@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Slf4j
@@ -22,33 +21,33 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserEntity loginGoogle(String googleEmail){
-        Optional<UserEntity> userEntity = userRepository.findByGoogleEmail(googleEmail);
-        if(userEntity.isEmpty()){
-            UserEntity user = UserEntity.builder()
+    public User loginGoogle(String googleEmail){
+        Optional<User> user = userRepository.findByGoogleEmail(googleEmail);
+        if(user.isEmpty()){
+            User newUser = User.builder()
                     .googleEmail(googleEmail)
                     .role(UserRoleType.ROLE_USER)
                     .build();
-            return userRepository.save(user);
+            return userRepository.save(newUser);
         }
-        return userEntity.get();
+        return user.get();
     }
 
-    public UserEntity loginPoomy(String googleEmail){
+    public User loginPoomy(String googleEmail){
         return userRepository.findByGoogleEmail(googleEmail)
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "User"));
     }
 
     @Transactional
-    public UserEntity registerNickName(Integer userId, String nickName){
-        Optional<UserEntity> userEntity = userRepository.findByNickName(nickName);
-        if(userEntity.isPresent()){
+    public User registerNickName(Integer userId, String nickName){
+        Optional<User> user = userRepository.findByNickName(nickName);
+        if(user.isPresent()){
             throw new CommonException(BError.EXIST, "nickName");
         }
-        UserEntity registeredUserEntity = userRepository.findById(userId)
+        User registeredUser = userRepository.findById(userId)
                         .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "user"));
-        registeredUserEntity.setNickName(nickName);
-        return registeredUserEntity;
+        registeredUser.setNickName(nickName);
+        return registeredUser;
     }
 
     @Transactional
@@ -60,7 +59,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserEntity getUserEntityByGoogleEmail(String googleEmail) {
+    public User getUserEntityByGoogleEmail(String googleEmail) {
         return userRepository.findByGoogleEmail(googleEmail)
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "user"));
     }
