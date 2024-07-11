@@ -1,12 +1,17 @@
 package com.poomy.mainserver.user.service;
 
 import com.poomy.mainserver.category.entity.Atmosphere;
+import com.poomy.mainserver.category.entity.HotPlace;
 import com.poomy.mainserver.category.repository.AtmosphereRepository;
+import com.poomy.mainserver.category.repository.HotPlaceRepository;
 import com.poomy.mainserver.user.dto.CustomUserDetails;
 import com.poomy.mainserver.user.dto.RegisterUserAtmospheresReqDto;
+import com.poomy.mainserver.user.dto.RegisterUserHotPlacesReqDto;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserAtmosphere;
+import com.poomy.mainserver.user.entity.UserHotPlace;
 import com.poomy.mainserver.user.repository.UserAtmosphereRepository;
+import com.poomy.mainserver.user.repository.UserHotPlaceRepository;
 import com.poomy.mainserver.user.repository.UserRepository;
 import com.poomy.mainserver.user.type.UserRoleType;
 import com.poomy.mainserver.util.exception.common.BError;
@@ -28,7 +33,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AtmosphereRepository atmosphereRepository;
+    private final HotPlaceRepository hotPlaceRepository;
     private final UserAtmosphereRepository userAtmosphereRepository;
+    private final UserHotPlaceRepository userHotPlaceRepository;
 
     public User loginGoogle(String googleEmail){
         Optional<User> user = userRepository.findByGoogleEmail(googleEmail);
@@ -77,6 +84,15 @@ public class UserService {
         return userAtmospheres;
     }
 
+    public List<UserHotPlace> registerUserHotPlace(RegisterUserHotPlacesReqDto registerUserHotPlacesReqDto){
+        User user = getUser();
+        List<Integer> hotPlaceIds = registerUserHotPlacesReqDto.getHotPlaceIds();
+        List<HotPlace> hotPlaces = findHotPlaces(hotPlaceIds);
+        List<UserHotPlace> userHotPlaces = saveUserHotPlaces(user, hotPlaces);
+        user.setUserHotPlaces(userHotPlaces);
+        return userHotPlaces;
+    }
+
     private List<Atmosphere> findAtmospheres(List<Integer> atmosphereIds){
         return atmosphereIds.stream()
                 .map(atmosphereId -> atmosphereRepository.findById(atmosphereId)
@@ -92,6 +108,24 @@ public class UserService {
                             .atmosphere(atmosphere)
                             .build();
                     return userAtmosphereRepository.save(userAtmosphere);
+                }).toList();
+    }
+
+    private List<HotPlace> findHotPlaces(List<Integer> hotPlaceIds){
+        return hotPlaceIds.stream()
+                .map(hotPlaceId -> hotPlaceRepository.findById(hotPlaceId)
+                        .orElseThrow(() -> new CommonException(BError.NOT_EXIST, hotPlaceId + " of hotPlaceId")))
+                .toList();
+    }
+
+    private List<UserHotPlace> saveUserHotPlaces(User user, List<HotPlace> hotPlaces){
+        return hotPlaces.stream()
+                .map(hotPlace -> {
+                    UserHotPlace userHotPlace = UserHotPlace.builder()
+                            .user(user)
+                            .hotPlace(hotPlace)
+                            .build();
+                    return userHotPlaceRepository.save(userHotPlace);
                 }).toList();
     }
 

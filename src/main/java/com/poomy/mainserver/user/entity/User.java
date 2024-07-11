@@ -43,6 +43,11 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserAtmosphere> userAtmospheres;
 
+    @Setter
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserHotPlace> userHotPlaces;
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp createAt;

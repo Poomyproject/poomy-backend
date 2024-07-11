@@ -40,10 +40,17 @@ public interface UserApi {
     @GetMapping("/register")
     ResponseEntity<ApiResult<UserResDto>> registerNickName(@Valid @ModelAttribute RegisterNickNameReqDto registerNickNameReqDto);
 
-    @Operation(summary = "사용자 취향 등록", description = "앱 처음 사용 시, 취향 등록 시 사용하다.")
+    @Operation(summary = "사용자 취향 등록", description = "앱 처음 사용 시, 취향 등록 시 사용한다.")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "400", description = "Bad Request",
             content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
     @PostMapping("/register/atmospheres")
     ResponseEntity<ApiResult<List<UserAtmosphereResDto>>> registerUserAtmospheres(@Valid @RequestBody RegisterUserAtmospheresReqDto registerUserAtmospheresReqDto);
+
+    @Operation(summary = "사용자 핫 플레이스 등록", description = "앱 처음 사용 시, 핫 플레이스 등록 시 사용한다.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad Request",
+            content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
+    @PostMapping("/register/hot-places")
+    ResponseEntity<ApiResult<List<?>>> registerUserHotPlaces(@Valid @RequestBody RegisterUserHotPlacesReqDto registerUserHotPlacesReqDto);
 }

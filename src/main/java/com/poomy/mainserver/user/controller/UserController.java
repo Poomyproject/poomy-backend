@@ -4,6 +4,7 @@ import com.poomy.mainserver.user.api.UserApi;
 import com.poomy.mainserver.user.dto.*;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserAtmosphere;
+import com.poomy.mainserver.user.entity.UserHotPlace;
 import com.poomy.mainserver.user.mapper.UserMapper;
 import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
@@ -61,7 +62,16 @@ public class UserController implements UserApi {
                 .map(userMapper::toUserAtmosphereResDto)
                 .toList();
         log.info("userAtmosphereResDtos : {}", userAtmosphereResDtos);
-        return ResponseEntity.ok(new ApiResult<>(userAtmosphereResDtos));
+        return ResponseEntity.created(null).body(new ApiResult<>(userAtmosphereResDtos));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<List<?>>> registerUserHotPlaces(RegisterUserHotPlacesReqDto registerUserHotPlacesReqDto) {
+        List<UserHotPlace> userHotPlaces = userService.registerUserHotPlace(registerUserHotPlacesReqDto);
+        List<UserHotPlaceResDto> userHotPlaceResDtos = userHotPlaces.stream()
+                .map(userMapper::toUserHotPlaceResDto)
+                .toList();
+        return ResponseEntity.created(null).body(new ApiResult<>(userHotPlaceResDtos));
     }
 
 }
