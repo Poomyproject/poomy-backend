@@ -1,11 +1,9 @@
 package com.poomy.mainserver.user.controller;
 
 import com.poomy.mainserver.user.api.UserApi;
-import com.poomy.mainserver.user.dto.RegisterNickNameReqDto;
-import com.poomy.mainserver.user.dto.LoginGoogleReqDto;
-import com.poomy.mainserver.user.dto.LoginPoomyReqDto;
-import com.poomy.mainserver.user.dto.UserResDto;
+import com.poomy.mainserver.user.dto.*;
 import com.poomy.mainserver.user.entity.User;
+import com.poomy.mainserver.user.entity.UserAtmosphere;
 import com.poomy.mainserver.user.mapper.UserMapper;
 import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
@@ -15,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -49,9 +49,19 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<ApiResult<UserResDto>> registerNickName(RegisterNickNameReqDto registerNickNameReqDto) {
         log.info("register nickName : {}", registerNickNameReqDto.getNickName());
-        Integer userId = userService.getUserId();
-        User user = userService.registerNickName(userId, registerNickNameReqDto.getNickName());
+        User user = userService.getUser();
+        user = userService.registerNickName(user, registerNickNameReqDto.getNickName());
         return ResponseEntity.ok(new ApiResult<>(userMapper.toUserResDto(user)));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<List<UserAtmosphereResDto>>> registerUserAtmospheres(RegisterUserAtmospheresReqDto registerUserAtmospheresReqDto) {
+        List<UserAtmosphere> userAtmospheres = userService.registerUserAtmosphere(registerUserAtmospheresReqDto);
+        List<UserAtmosphereResDto> userAtmosphereResDtos = userAtmospheres.stream()
+                .map(userMapper::toUserAtmosphereResDto)
+                .toList();
+        log.info("userAtmosphereResDtos : {}", userAtmosphereResDtos);
+        return ResponseEntity.ok(new ApiResult<>(userAtmosphereResDtos));
     }
 
 }

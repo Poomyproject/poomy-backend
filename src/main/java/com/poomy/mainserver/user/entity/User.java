@@ -1,5 +1,6 @@
 package com.poomy.mainserver.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.poomy.mainserver.user.type.UserRoleType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Builder
@@ -35,6 +37,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
+
+    @Setter
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserAtmosphere> userAtmospheres;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp

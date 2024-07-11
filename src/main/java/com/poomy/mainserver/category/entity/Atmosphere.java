@@ -1,8 +1,12 @@
 package com.poomy.mainserver.category.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.poomy.mainserver.category.type.AtmosphereType;
+import com.poomy.mainserver.user.entity.UserAtmosphere;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @ToString
@@ -21,5 +25,9 @@ public class Atmosphere {
 
     @Column(length = 15)
     private String prefix;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "atmosphere", fetch = FetchType.EAGER)
+    private List<UserAtmosphere> userAtmospheres;
 
 }

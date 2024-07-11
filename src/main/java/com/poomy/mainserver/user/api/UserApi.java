@@ -1,9 +1,6 @@
 package com.poomy.mainserver.user.api;
 
-import com.poomy.mainserver.user.dto.RegisterNickNameReqDto;
-import com.poomy.mainserver.user.dto.LoginGoogleReqDto;
-import com.poomy.mainserver.user.dto.LoginPoomyReqDto;
-import com.poomy.mainserver.user.dto.UserResDto;
+import com.poomy.mainserver.user.dto.*;
 import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "User API", description = "User 관련된 API")
 @RequestMapping("/api/users")
@@ -40,4 +39,11 @@ public interface UserApi {
             content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
     @GetMapping("/register")
     ResponseEntity<ApiResult<UserResDto>> registerNickName(@Valid @ModelAttribute RegisterNickNameReqDto registerNickNameReqDto);
+
+    @Operation(summary = "사용자 취향 등록", description = "앱 처음 사용 시, 취향 등록 시 사용하다.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad Request",
+            content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
+    @PostMapping("/register/atmospheres")
+    ResponseEntity<ApiResult<List<UserAtmosphereResDto>>> registerUserAtmospheres(@Valid @RequestBody RegisterUserAtmospheresReqDto registerUserAtmospheresReqDto);
 }
