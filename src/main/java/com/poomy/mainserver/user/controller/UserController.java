@@ -1,5 +1,8 @@
 package com.poomy.mainserver.user.controller;
 
+import com.poomy.mainserver.category.entity.Atmosphere;
+import com.poomy.mainserver.category.entity.HotPlace;
+import com.poomy.mainserver.category.service.CategoryService;
 import com.poomy.mainserver.user.api.UserApi;
 import com.poomy.mainserver.user.dto.*;
 import com.poomy.mainserver.user.entity.User;
@@ -25,6 +28,7 @@ public class UserController implements UserApi {
     private final UserService userService;
     private final GoogleService googleService;
     private final JWTService jwtService;
+    private final CategoryService categoryService;
     private final UserMapper userMapper;
 
     @Override
@@ -57,7 +61,9 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<ApiResult<List<UserAtmosphereResDto>>> registerUserAtmospheres(RegisterUserAtmospheresReqDto registerUserAtmospheresReqDto) {
-        List<UserAtmosphere> userAtmospheres = userService.registerUserAtmosphere(registerUserAtmospheresReqDto);
+        List<Integer> atmosphereIds = registerUserAtmospheresReqDto.getAtmosphereIds();
+        List<Atmosphere> atmospheres = categoryService.getAtmospheres(atmosphereIds);
+        List<UserAtmosphere> userAtmospheres = userService.registerUserAtmosphere(atmospheres);
         List<UserAtmosphereResDto> userAtmosphereResDtos = userAtmospheres.stream()
                 .map(userMapper::toUserAtmosphereResDto)
                 .toList();
@@ -67,7 +73,9 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<ApiResult<List<?>>> registerUserHotPlaces(RegisterUserHotPlacesReqDto registerUserHotPlacesReqDto) {
-        List<UserHotPlace> userHotPlaces = userService.registerUserHotPlace(registerUserHotPlacesReqDto);
+        List<Integer> hotPlaceIds = registerUserHotPlacesReqDto.getHotPlaceIds();
+        List<HotPlace> hotPlaces = categoryService.getHotPlaces(hotPlaceIds);
+        List<UserHotPlace> userHotPlaces = userService.registerUserHotPlace(hotPlaces);
         List<UserHotPlaceResDto> userHotPlaceResDtos = userHotPlaces.stream()
                 .map(userMapper::toUserHotPlaceResDto)
                 .toList();

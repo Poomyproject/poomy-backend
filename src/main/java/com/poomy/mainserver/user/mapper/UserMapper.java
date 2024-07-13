@@ -1,5 +1,7 @@
 package com.poomy.mainserver.user.mapper;
 
+import com.poomy.mainserver.category.entity.Atmosphere;
+import com.poomy.mainserver.category.entity.HotPlace;
 import com.poomy.mainserver.user.dto.UserAtmosphereResDto;
 import com.poomy.mainserver.user.dto.UserHotPlaceResDto;
 import com.poomy.mainserver.user.dto.UserResDto;
@@ -27,4 +29,10 @@ public interface UserMapper{
     @Mapping(source = "user", target = "nickname", qualifiedByName = {"GetNickname"})
     @Mapping(source = "hotPlace", target = "hotPlace", qualifiedByName = {"GetHotPlaceName"})
     UserHotPlaceResDto toUserHotPlaceResDto(UserHotPlace userHotPlace);
+
+    @Mapping(target = "id", ignore = true)
+    UserAtmosphere toUserAtmosphere(User user, Atmosphere atmosphere);
+
+    @Mapping(target = "id", ignore = true)
+    UserHotPlace toUserHotPlace(User user, HotPlace hotPlace);
 }
