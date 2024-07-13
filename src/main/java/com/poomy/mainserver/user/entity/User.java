@@ -28,7 +28,7 @@ public class User {
 
     @Setter
     @Column(unique = true, length = 5)
-    private String nickName;
+    private String nickname;
 
     private String imgUrl;
 

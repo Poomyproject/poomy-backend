@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserQualifier {
 
-    @Named("GetNickName")
+    @Named("GetNickname")
     public String getNickName(User user){
-        return user.getNickName();
+        return user.getNickname();
     }
 
     @Named("GetAtmosphereName")

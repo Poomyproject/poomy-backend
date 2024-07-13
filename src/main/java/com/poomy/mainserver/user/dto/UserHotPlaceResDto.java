@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class UserHotPlaceResDto {
 
-    private String nickName;
+    private String nickname;
     private String hotPlace;
 
 }

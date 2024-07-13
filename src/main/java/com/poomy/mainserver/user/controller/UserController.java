@@ -48,10 +48,10 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<ApiResult<UserResDto>> registerNickName(RegisterNickNameReqDto registerNickNameReqDto) {
-        log.info("register nickName : {}", registerNickNameReqDto.getNickName());
+    public ResponseEntity<ApiResult<UserResDto>> registerNickname(RegisterNicknameReqDto registerNicknameReqDto) {
+        log.info("register nickname : {}", registerNicknameReqDto.getNickname());
         User user = userService.getUser();
-        user = userService.registerNickName(user, registerNickNameReqDto.getNickName());
+        user = userService.registerNickname(user, registerNicknameReqDto.getNickname());
         return ResponseEntity.ok(new ApiResult<>(userMapper.toUserResDto(user)));
     }
 

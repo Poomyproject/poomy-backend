@@ -20,11 +20,11 @@ public interface UserMapper{
 
     UserResDto toUserResDto(User user);
 
-    @Mapping(source = "user", target = "nickName", qualifiedByName = {"GetNickName"})
+    @Mapping(source = "user", target = "nickname", qualifiedByName = {"GetNickname"})
     @Mapping(source = "atmosphere", target = "atmosphere", qualifiedByName = {"GetAtmosphereName"})
     UserAtmosphereResDto toUserAtmosphereResDto(UserAtmosphere userAtmosphere);
 
-    @Mapping(source = "user", target = "nickName", qualifiedByName = {"GetNickName"})
+    @Mapping(source = "user", target = "nickname", qualifiedByName = {"GetNickname"})
     @Mapping(source = "hotPlace", target = "hotPlace", qualifiedByName = {"GetHotPlaceName"})
     UserHotPlaceResDto toUserHotPlaceResDto(UserHotPlace userHotPlace);
 }

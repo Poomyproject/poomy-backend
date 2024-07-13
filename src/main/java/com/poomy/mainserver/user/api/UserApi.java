@@ -37,8 +37,8 @@ public interface UserApi {
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "400", description = "Bad Request",
             content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
-    @GetMapping("/register")
-    ResponseEntity<ApiResult<UserResDto>> registerNickName(@Valid @ModelAttribute RegisterNickNameReqDto registerNickNameReqDto);
+    @PostMapping("/register/nickname")
+    ResponseEntity<ApiResult<UserResDto>> registerNickname(@Valid @RequestBody RegisterNicknameReqDto registerNicknameReqDto);
 
     @Operation(summary = "사용자 취향 등록", description = "앱 처음 사용 시, 취향 등록 시 사용한다.")
     @ApiResponse(responseCode = "200", description = "OK")

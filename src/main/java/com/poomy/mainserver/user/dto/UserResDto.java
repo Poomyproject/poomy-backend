@@ -8,6 +8,6 @@ import lombok.Getter;
 public class UserResDto {
 
     private String googleEmail;
-    private String nickName;
+    private String nickname;
 
 }

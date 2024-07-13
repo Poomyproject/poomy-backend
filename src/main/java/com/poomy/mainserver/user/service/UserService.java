@@ -54,12 +54,12 @@ public class UserService {
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "User"));
     }
 
-    public User registerNickName(User user, String nickName){
-        boolean existedNickName = userRepository.existsByNickName(nickName);
-        if(existedNickName){
-            throw new CommonException(BError.EXIST, "NickName");
+    public User registerNickname(User user, String nickname){
+        boolean existedNickname = userRepository.existsByNickname(nickname);
+        if(existedNickname){
+            throw new CommonException(BError.EXIST, "Nickname");
         }
-        user.setNickName(nickName);
+        user.setNickname(nickname);
         return user;
     }
 
