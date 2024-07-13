@@ -19,8 +19,10 @@ public class Atmosphere {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     private AtmosphereType name;
 
+    @Column(name = "img_url")
     private String imgUrl;
 
     @Column(length = 15)

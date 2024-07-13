@@ -21,8 +21,10 @@ public class HotPlace {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     private HotPlaceType name;
 
+    @Column(name = "img_url")
     private String imgUrl;
 
     private Double latitude;

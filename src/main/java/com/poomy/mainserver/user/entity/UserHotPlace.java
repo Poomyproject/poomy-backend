@@ -2,6 +2,7 @@ package com.poomy.mainserver.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.poomy.mainserver.category.entity.HotPlace;
+import com.poomy.mainserver.util.vo.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,7 +20,7 @@ import java.sql.Timestamp;
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"user_id", "hot_place_id"})
         })
-public class UserHotPlace {
+public class UserHotPlace extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,12 +35,5 @@ public class UserHotPlace {
     @JoinColumn(name = "hot_place_id")
     @JsonBackReference
     private HotPlace hotPlace;
-
-    @Column(nullable = false, updatable = false)
-    @CreationTimestamp
-    private Timestamp createAt;
-
-    @UpdateTimestamp
-    private Timestamp updateAt;
 
 }
