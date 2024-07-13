@@ -1,6 +1,6 @@
 package com.poomy.mainserver.user.dto;
 
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.ToString;
@@ -15,7 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final UserEntity userEntity;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -25,7 +25,7 @@ public class CustomUserDetails implements UserDetails {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return userEntity.getRole().name();
+                return user.getRole().name();
             }
         });
 
@@ -39,7 +39,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userEntity.getGoogleEmail();
+        return user.getGoogleEmail();
     }
 
     @Override

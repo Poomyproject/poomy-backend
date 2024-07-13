@@ -1,7 +1,7 @@
 package com.poomy.mainserver.util.jwt;
 
 import com.poomy.mainserver.user.dto.CustomUserDetails;
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.type.UserRoleType;
 import com.poomy.mainserver.util.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -50,12 +50,12 @@ public class JWTFilter extends OncePerRequestFilter {
             String googleEmail = jwtUtil.getGoogleEmail(token);
             String role = jwtUtil.getRole(token);
 
-            UserEntity userEntity = UserEntity.builder()
+            User user = User.builder()
                     .googleEmail(googleEmail)
                     .role(UserRoleType.valueOf(role))
                     .build();
 
-            CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
+            CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
             Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
 

@@ -1,6 +1,6 @@
 package com.poomy.mainserver.user.service;
 
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.util.jwt.JWTUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +13,9 @@ public class JWTService {
 
     private final JWTUtil jwtUtil;
 
-    public String createJwt(UserEntity userEntity){
-        String googleEmail = userEntity.getGoogleEmail();
-        String role = userEntity.getRole().name();
+    public String createJwt(User user){
+        String googleEmail = user.getGoogleEmail();
+        String role = user.getRole().name();
         String token = jwtUtil.createJwt(googleEmail, role, 1000 * 60 * 60L);
         return "Bearer "+token;
     }

@@ -1,7 +1,14 @@
 package com.poomy.mainserver.user.service;
 
+import com.poomy.mainserver.category.entity.Atmosphere;
+import com.poomy.mainserver.category.entity.HotPlace;
 import com.poomy.mainserver.user.dto.CustomUserDetails;
-import com.poomy.mainserver.user.entity.UserEntity;
+import com.poomy.mainserver.user.entity.User;
+import com.poomy.mainserver.user.entity.UserAtmosphere;
+import com.poomy.mainserver.user.entity.UserHotPlace;
+import com.poomy.mainserver.user.mapper.UserMapper;
+import com.poomy.mainserver.user.repository.UserAtmosphereRepository;
+import com.poomy.mainserver.user.repository.UserHotPlaceRepository;
 import com.poomy.mainserver.user.repository.UserRepository;
 import com.poomy.mainserver.user.type.UserRoleType;
 import com.poomy.mainserver.util.exception.common.BError;
@@ -12,57 +19,76 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
+@Transactional
 @AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserAtmosphereRepository userAtmosphereRepository;
+    private final UserHotPlaceRepository userHotPlaceRepository;
+    private final UserMapper userMapper;
 
-    public UserEntity loginGoogle(String googleEmail){
-        Optional<UserEntity> userEntity = userRepository.findByGoogleEmail(googleEmail);
-        if(userEntity.isEmpty()){
-            UserEntity user = UserEntity.builder()
+    public User loginGoogle(String googleEmail){
+        Optional<User> user = userRepository.findByGoogleEmail(googleEmail);
+        if(user.isEmpty()){
+            User newUser = User.builder()
                     .googleEmail(googleEmail)
                     .role(UserRoleType.ROLE_USER)
                     .build();
-            return userRepository.save(user);
+            return userRepository.save(newUser);
         }
-        return userEntity.get();
+        return user.get();
     }
 
-    public UserEntity loginPoomy(String googleEmail){
+    public User loginPoomy(String googleEmail){
         return userRepository.findByGoogleEmail(googleEmail)
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "User"));
     }
 
-    @Transactional
-    public UserEntity registerNickName(Integer userId, String nickName){
-        Optional<UserEntity> userEntity = userRepository.findByNickName(nickName);
-        if(userEntity.isPresent()){
-            throw new CommonException(BError.EXIST, "nickName");
+    public User registerNickname(User user, String nickname){
+        boolean existedNickname = userRepository.existsByNickname(nickname);
+        if(existedNickname){
+            throw new CommonException(BError.EXIST, "Nickname");
         }
-        UserEntity registeredUserEntity = userRepository.findById(userId)
-                        .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "user"));
-        registeredUserEntity.setNickName(nickName);
-        return registeredUserEntity;
+        user.setNickname(nickname);
+        return user;
     }
 
-    @Transactional
-    public Integer getUserId(){
+    public User getUser(){
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String googleEmail = Optional.ofNullable(customUserDetails.getUsername())
                 .orElseThrow(()-> new CommonException(BError.NOT_VALID, "user"));
-        return getUserEntityByGoogleEmail(googleEmail).getId();
+        return getUserByGoogleEmail(googleEmail);
     }
 
-    @Transactional(readOnly = true)
-    public UserEntity getUserEntityByGoogleEmail(String googleEmail) {
+    public User getUserByGoogleEmail(String googleEmail) {
         return userRepository.findByGoogleEmail(googleEmail)
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "user"));
+    }
+
+    public List<UserAtmosphere> registerUserAtmosphere(List<Atmosphere> atmospheres) {
+        User user = getUser();
+        List<UserAtmosphere> userAtmospheres = atmospheres.stream()
+                .map(atmosphere -> userMapper.toUserAtmosphere(user, atmosphere))
+                .toList();
+        userAtmospheres = userAtmosphereRepository.saveAll(userAtmospheres);
+        user.setUserAtmospheres(userAtmospheres);
+        return userAtmospheres;
+    }
+
+    public List<UserHotPlace> registerUserHotPlace(List<HotPlace> hotPlaces){
+        User user = getUser();
+        List<UserHotPlace> userHotPlaces = hotPlaces.stream()
+                .map(hotPlace -> userMapper.toUserHotPlace(user, hotPlace))
+                .toList();
+        userHotPlaces = userHotPlaceRepository.saveAll(userHotPlaces);
+        user.setUserHotPlaces(userHotPlaces);
+        return userHotPlaces;
     }
 
 }
