@@ -1,13 +1,13 @@
 package com.poomy.mainserver.user.mapper;
 
-import com.poomy.mainserver.category.entity.Atmosphere;
-import com.poomy.mainserver.category.entity.HotPlace;
-import com.poomy.mainserver.user.dto.UserAtmosphereResDto;
-import com.poomy.mainserver.user.dto.UserHotPlaceResDto;
+import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.spot.entity.Spot;
+import com.poomy.mainserver.user.dto.UserMoodResDto;
+import com.poomy.mainserver.user.dto.UserSpotResDto;
 import com.poomy.mainserver.user.dto.UserResDto;
 import com.poomy.mainserver.user.entity.User;
-import com.poomy.mainserver.user.entity.UserAtmosphere;
-import com.poomy.mainserver.user.entity.UserHotPlace;
+import com.poomy.mainserver.user.entity.UserMood;
+import com.poomy.mainserver.user.entity.UserSpot;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -23,16 +23,16 @@ public interface UserMapper{
     UserResDto toUserResDto(User user);
 
     @Mapping(source = "user", target = "nickname", qualifiedByName = {"GetNickname"})
-    @Mapping(source = "atmosphere", target = "atmosphere", qualifiedByName = {"GetAtmosphereName"})
-    UserAtmosphereResDto toUserAtmosphereResDto(UserAtmosphere userAtmosphere);
+    @Mapping(source = "mood", target = "mood", qualifiedByName = {"GetMoodName"})
+    UserMoodResDto toUserMoodResDto(UserMood userMood);
 
     @Mapping(source = "user", target = "nickname", qualifiedByName = {"GetNickname"})
-    @Mapping(source = "hotPlace", target = "hotPlace", qualifiedByName = {"GetHotPlaceName"})
-    UserHotPlaceResDto toUserHotPlaceResDto(UserHotPlace userHotPlace);
+    @Mapping(source = "spot", target = "spot", qualifiedByName = {"GetSpotName"})
+    UserSpotResDto toUserSpotResDto(UserSpot userSpot);
 
     @Mapping(target = "id", ignore = true)
-    UserAtmosphere toUserAtmosphere(User user, Atmosphere atmosphere);
+    UserMood toUserMood(User user, Mood mood);
 
     @Mapping(target = "id", ignore = true)
-    UserHotPlace toUserHotPlace(User user, HotPlace hotPlace);
+    UserSpot toUserSpot(User user, Spot spot);
 }

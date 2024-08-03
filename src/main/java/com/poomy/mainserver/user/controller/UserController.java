@@ -1,13 +1,14 @@
 package com.poomy.mainserver.user.controller;
 
-import com.poomy.mainserver.category.entity.Atmosphere;
-import com.poomy.mainserver.category.entity.HotPlace;
-import com.poomy.mainserver.category.service.CategoryService;
+import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.mood.service.MoodService;
+import com.poomy.mainserver.spot.entity.Spot;
+import com.poomy.mainserver.spot.service.SpotService;
 import com.poomy.mainserver.user.api.UserApi;
 import com.poomy.mainserver.user.dto.*;
 import com.poomy.mainserver.user.entity.User;
-import com.poomy.mainserver.user.entity.UserAtmosphere;
-import com.poomy.mainserver.user.entity.UserHotPlace;
+import com.poomy.mainserver.user.entity.UserMood;
+import com.poomy.mainserver.user.entity.UserSpot;
 import com.poomy.mainserver.user.mapper.UserMapper;
 import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
@@ -28,11 +29,12 @@ public class UserController implements UserApi {
     private final UserService userService;
     private final GoogleService googleService;
     private final JWTService jwtService;
-    private final CategoryService categoryService;
+    private final MoodService moodService;
+    private final SpotService spotService;
     private final UserMapper userMapper;
 
     @Override
-    public ResponseEntity<ApiResult<?>> loginGoogle(LoginGoogleReqDto loginGoogleReqDto) {
+    public ResponseEntity<ApiResult<UserResDto>> loginGoogle(LoginGoogleReqDto loginGoogleReqDto) {
 
         String googleEmail = googleService.extractGoogleEmail(loginGoogleReqDto.getIdToken());
         User user = userService.loginGoogle(googleEmail);
@@ -56,30 +58,30 @@ public class UserController implements UserApi {
         log.info("register nickname : {}", registerNicknameReqDto.getNickname());
         User user = userService.getUser();
         user = userService.registerNickname(user, registerNicknameReqDto.getNickname());
-        return ResponseEntity.ok(new ApiResult<>(userMapper.toUserResDto(user)));
+        return ResponseEntity.created(null).body(new ApiResult<>(userMapper.toUserResDto(user)));
     }
 
     @Override
-    public ResponseEntity<ApiResult<List<UserAtmosphereResDto>>> registerUserAtmospheres(RegisterUserAtmospheresReqDto registerUserAtmospheresReqDto) {
-        List<Integer> atmosphereIds = registerUserAtmospheresReqDto.getAtmosphereIds();
-        List<Atmosphere> atmospheres = categoryService.getAtmospheres(atmosphereIds);
-        List<UserAtmosphere> userAtmospheres = userService.registerUserAtmosphere(atmospheres);
-        List<UserAtmosphereResDto> userAtmosphereResDtos = userAtmospheres.stream()
-                .map(userMapper::toUserAtmosphereResDto)
+    public ResponseEntity<ApiResult<List<UserMoodResDto>>> registerUserMoods(RegisterUserMoodsReqDto registerUserMoodsReqDto) {
+        List<Integer> moodIds = registerUserMoodsReqDto.getMoodIds();
+        List<Mood> moods = moodService.getMoods(moodIds);
+        List<UserMood> userMoods = userService.registerUserMood(moods);
+        List<UserMoodResDto> userMoodResDtos = userMoods.stream()
+                .map(userMapper::toUserMoodResDto)
                 .toList();
-        log.info("userAtmosphereResDtos : {}", userAtmosphereResDtos);
-        return ResponseEntity.created(null).body(new ApiResult<>(userAtmosphereResDtos));
+        log.info("userAtmosphereResDtos : {}", userMoodResDtos);
+        return ResponseEntity.created(null).body(new ApiResult<>(userMoodResDtos));
     }
 
     @Override
-    public ResponseEntity<ApiResult<List<?>>> registerUserHotPlaces(RegisterUserHotPlacesReqDto registerUserHotPlacesReqDto) {
-        List<Integer> hotPlaceIds = registerUserHotPlacesReqDto.getHotPlaceIds();
-        List<HotPlace> hotPlaces = categoryService.getHotPlaces(hotPlaceIds);
-        List<UserHotPlace> userHotPlaces = userService.registerUserHotPlace(hotPlaces);
-        List<UserHotPlaceResDto> userHotPlaceResDtos = userHotPlaces.stream()
-                .map(userMapper::toUserHotPlaceResDto)
+    public ResponseEntity<ApiResult<List<UserSpotResDto>>> registerUserSpots(RegisterUserSpotsReqDto registerUserSpotsReqDto) {
+        List<Integer> spotIds = registerUserSpotsReqDto.getSpotIds();
+        List<Spot> spots = spotService.getSpots(spotIds);
+        List<UserSpot> userSpots = userService.registerUserSpot(spots);
+        List<UserSpotResDto> userSpotResDtos = userSpots.stream()
+                .map(userMapper::toUserSpotResDto)
                 .toList();
-        return ResponseEntity.created(null).body(new ApiResult<>(userHotPlaceResDtos));
+        return ResponseEntity.created(null).body(new ApiResult<>(userSpotResDtos));
     }
 
 }

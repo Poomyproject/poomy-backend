@@ -1,7 +1,7 @@
 package com.poomy.mainserver.user.mapper;
 
-import com.poomy.mainserver.category.entity.Atmosphere;
-import com.poomy.mainserver.category.entity.HotPlace;
+import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.spot.entity.Spot;
 import com.poomy.mainserver.user.entity.User;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
@@ -14,14 +14,14 @@ public class UserQualifier {
         return user.getNickname();
     }
 
-    @Named("GetAtmosphereName")
-    public String getAtmosphereName(Atmosphere atmosphere){
-        return atmosphere.getName().getName();
+    @Named("GetMoodName")
+    public String getMoodName(Mood mood){
+        return mood.getName();
     }
 
-    @Named("GetHotPlaceName")
-    public String getHotPlaceName(HotPlace hotPlace){
-        return hotPlace.getName().getName();
+    @Named("GetSpotName")
+    public String getHotPlaceName(Spot spot){
+        return spot.getName();
     }
 
 }

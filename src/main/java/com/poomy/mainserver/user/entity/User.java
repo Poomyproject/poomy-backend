@@ -39,11 +39,11 @@ public class User extends BaseTime {
     @Setter
     @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserAtmosphere> userAtmospheres;
+    private List<UserMood> userMoods;
 
     @Setter
     @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UserHotPlace> userHotPlaces;
+    private List<UserSpot> userSpots;
 
 }

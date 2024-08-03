@@ -1,14 +1,14 @@
 package com.poomy.mainserver.user.service;
 
-import com.poomy.mainserver.category.entity.Atmosphere;
-import com.poomy.mainserver.category.entity.HotPlace;
+import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.spot.entity.Spot;
 import com.poomy.mainserver.user.dto.CustomUserDetails;
 import com.poomy.mainserver.user.entity.User;
-import com.poomy.mainserver.user.entity.UserAtmosphere;
-import com.poomy.mainserver.user.entity.UserHotPlace;
+import com.poomy.mainserver.user.entity.UserMood;
+import com.poomy.mainserver.user.entity.UserSpot;
 import com.poomy.mainserver.user.mapper.UserMapper;
-import com.poomy.mainserver.user.repository.UserAtmosphereRepository;
-import com.poomy.mainserver.user.repository.UserHotPlaceRepository;
+import com.poomy.mainserver.user.repository.UserMoodRepository;
+import com.poomy.mainserver.user.repository.UserSpotRepository;
 import com.poomy.mainserver.user.repository.UserRepository;
 import com.poomy.mainserver.user.type.UserRoleType;
 import com.poomy.mainserver.util.exception.common.BError;
@@ -29,8 +29,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserAtmosphereRepository userAtmosphereRepository;
-    private final UserHotPlaceRepository userHotPlaceRepository;
+    private final UserMoodRepository userMoodRepository;
+    private final UserSpotRepository userSpotRepository;
     private final UserMapper userMapper;
 
     public User loginGoogle(String googleEmail){
@@ -71,24 +71,24 @@ public class UserService {
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "user"));
     }
 
-    public List<UserAtmosphere> registerUserAtmosphere(List<Atmosphere> atmospheres) {
+    public List<UserMood> registerUserMood(List<Mood> moods) {
         User user = getUser();
-        List<UserAtmosphere> userAtmospheres = atmospheres.stream()
-                .map(atmosphere -> userMapper.toUserAtmosphere(user, atmosphere))
+        List<UserMood> userMoods = moods.stream()
+                .map(mood -> userMapper.toUserMood(user, mood))
                 .toList();
-        userAtmospheres = userAtmosphereRepository.saveAll(userAtmospheres);
-        user.setUserAtmospheres(userAtmospheres);
-        return userAtmospheres;
+        userMoods = userMoodRepository.saveAll(userMoods);
+        user.setUserMoods(userMoods);
+        return userMoods;
     }
 
-    public List<UserHotPlace> registerUserHotPlace(List<HotPlace> hotPlaces){
+    public List<UserSpot> registerUserSpot(List<Spot> spots){
         User user = getUser();
-        List<UserHotPlace> userHotPlaces = hotPlaces.stream()
-                .map(hotPlace -> userMapper.toUserHotPlace(user, hotPlace))
+        List<UserSpot> userSpots = spots.stream()
+                .map(spot -> userMapper.toUserSpot(user, spot))
                 .toList();
-        userHotPlaces = userHotPlaceRepository.saveAll(userHotPlaces);
-        user.setUserHotPlaces(userHotPlaces);
-        return userHotPlaces;
+        userSpots = userSpotRepository.saveAll(userSpots);
+        user.setUserSpots(userSpots);
+        return userSpots;
     }
 
 }
