@@ -1,0 +1,50 @@
+package com.poomy.mainserver.home.entity;
+
+import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.spot.entity.Spot;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "poom_shops")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class Shop {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    private String name;
+
+    private String location;
+
+    @Column(name = "nearby_station")
+    private String nearbyStation;
+
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "spot_id", nullable = false)
+    private Spot spot;
+
+    @ManyToOne
+    @JoinColumn(name = "mood_id", nullable = false)
+    private Mood mood;
+
+    private Double latitude;
+
+    private Double longitude;
+}
