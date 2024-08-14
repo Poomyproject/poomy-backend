@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record HomeShopRes(Long id, String prefix, List<?> shopList) {
+public record HomeShopRes(Long id, String prefix, String hashtag, List<?> shopList) {
 }

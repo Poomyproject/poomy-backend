@@ -1,7 +1,10 @@
 package com.poomy.mainserver.home.service;
 
 import com.poomy.mainserver.favorite.repository.FavoriteRepository;
-import com.poomy.mainserver.home.dto.res.*;
+import com.poomy.mainserver.home.dto.res.HomeShopRes;
+import com.poomy.mainserver.home.dto.res.ShopByMoodRes;
+import com.poomy.mainserver.home.dto.res.ShopBySpotRes;
+import com.poomy.mainserver.home.dto.res.SpotsRes;
 import com.poomy.mainserver.home.repository.ShopImageRepository;
 import com.poomy.mainserver.home.repository.ShopRepository;
 import com.poomy.mainserver.mood.entity.Mood;
@@ -49,7 +52,8 @@ public class ShopService {
 
         return HomeShopRes.builder()
                 .id(randomUserSpot.getId())
-                .prefix("prefix")
+                .prefix(randomUserSpot.getSpot().getPrefix())
+                .hashtag(randomUserSpot.getSpot().getName())
                 .shopList(shops)
                 .build();
 
@@ -80,6 +84,7 @@ public class ShopService {
             shopList.add(HomeShopRes.builder()
                     .id(userMood.getId())
                     .prefix(userMood.getPrefix())
+                    .hashtag(userMood.getName())
                     .shopList(homeShopResList)
                     .build());
         }
