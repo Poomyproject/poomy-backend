@@ -21,6 +21,8 @@ public class Spot {
     @Column(unique = true)
     private String name;
 
+    private String prefix;
+
     @Column(name = "img_url")
     private String imgUrl;
 
