@@ -28,7 +28,7 @@ public class Mood {
     private String prefix;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "mood", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "mood", fetch = FetchType.LAZY)
     private List<UserMood> userMoods;
 
 }

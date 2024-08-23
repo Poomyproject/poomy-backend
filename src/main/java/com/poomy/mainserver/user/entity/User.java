@@ -38,12 +38,12 @@ public class User extends BaseTime {
 
     @Setter
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserMood> userMoods;
 
     @Setter
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserSpot> userSpots;
 
 }
