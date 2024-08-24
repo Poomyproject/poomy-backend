@@ -59,5 +59,8 @@ public interface UserApi {
     @PostMapping("/check/nickname")
     ResponseEntity<ApiResult<String>> checkUserNickname(@Valid @RequestBody NicknameReqDto nicknameReqDto);
 
+    @Operation(summary = "사용자 정보 조회", description = "사용자에 대한 닉네임, 이미지, 취향 등을 조회한다.")
+    @GetMapping("")
+    ResponseEntity<ApiResult<UserInfoResDto>> getUserInfo();
 
 }

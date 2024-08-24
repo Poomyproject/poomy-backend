@@ -1,5 +1,6 @@
 package com.poomy.mainserver.mood.mapper;
 
+import com.poomy.mainserver.mood.dto.MoodNmResDto;
 import com.poomy.mainserver.mood.dto.MoodResDto;
 import com.poomy.mainserver.mood.entity.Mood;
 import org.mapstruct.Mapper;
@@ -13,5 +14,6 @@ import org.springframework.stereotype.Component;
 public interface MoodMapper {
 
     MoodResDto toMoodResDto(Mood mood);
+    MoodNmResDto toMoodNmResDto(Mood mood);
 
 }

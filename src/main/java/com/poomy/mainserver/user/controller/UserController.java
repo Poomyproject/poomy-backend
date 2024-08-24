@@ -95,4 +95,10 @@ public class UserController implements UserApi {
         return ResponseEntity.ok(ApiUtils.success("닉네임 등록이 가능합니다."));
     }
 
+    @Override
+    public ResponseEntity<ApiResult<UserInfoResDto>> getUserInfo() {
+        UserInfoResDto userInfoResDto = userService.getUserInfo();
+        return ResponseEntity.ok(ApiUtils.success(userInfoResDto));
+    }
+
 }

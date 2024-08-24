@@ -30,9 +30,6 @@ public class User extends BaseTime {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @Column(length = 127)
-    private String description;
-
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
 
