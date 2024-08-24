@@ -31,8 +31,8 @@ public interface UserApi {
 
     @Operation(summary = "Poomy 로그인", description = "개발할 때, jwt 토큰 발급용으로 만들어졌다. 이미 구글로 로그인한 경우 한정")
     @ApiResponse(responseCode = "200", description = "OK",
-            headers = @Header(name = "accessToken", description = "유저 권한을 위한 jwt 토큰"),
-            content = @Content(schema = @Schema(implementation = UserApiResult.class))
+            headers = @Header(name = "accessToken", description = "유저 권한을 위한 jwt 토큰")
+//            content = @Content(schema = @Schema(implementation = UserApiResult.class))
     )
     @PostMapping("/login/poomy")
     ResponseEntity<ApiResult<UserResDto>> loginPoomy(@Valid @RequestBody LoginPoomyReqDto loginGoogleReqDto);
@@ -41,7 +41,7 @@ public interface UserApi {
     @ApiResponse(responseCode = "201", description = "Created",
             content = @Content(schema = @Schema(implementation = UserApiResult.class)))
     @PostMapping("/nickname")
-    ResponseEntity<ApiResult<UserResDto>> registerNickname(@Valid @RequestBody RegisterNicknameReqDto registerNicknameReqDto);
+    ResponseEntity<ApiResult<UserResDto>> registerNickname(@Valid @RequestBody NicknameReqDto nicknameReqDto);
 
     @Operation(summary = "사용자 취향 등록", description = "앱 처음 사용 시, 취향 등록 시 사용한다.")
     @ApiResponse(responseCode = "201", description = "Created",
@@ -54,4 +54,10 @@ public interface UserApi {
             content = @Content(schema = @Schema(implementation = UserSpotApiResult.class)))
     @PostMapping("/spots")
     ResponseEntity<ApiResult<List<UserSpotResDto>>> registerUserSpots(@Valid @RequestBody RegisterUserSpotsReqDto registerUserSpotsReqDto);
+
+    @Operation(summary = "닉네임 가능여부 체크", description = "닉네임이 등록 가능한지 여부를 체크한다.")
+    @PostMapping("/check/nickname")
+    ResponseEntity<ApiResult<String>> checkUserNickname(@Valid @RequestBody NicknameReqDto nicknameReqDto);
+
+
 }

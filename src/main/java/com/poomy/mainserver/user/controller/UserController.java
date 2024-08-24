@@ -55,10 +55,10 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<ApiResult<UserResDto>> registerNickname(RegisterNicknameReqDto registerNicknameReqDto) {
-        log.info("register nickname : {}", registerNicknameReqDto.getNickname());
+    public ResponseEntity<ApiResult<UserResDto>> registerNickname(NicknameReqDto nicknameReqDto) {
+        log.info("register nickname : {}", nicknameReqDto.getNickname());
         User user = userService.getUser();
-        user = userService.registerNickname(user, registerNicknameReqDto.getNickname());
+        user = userService.registerNickname(user, nicknameReqDto.getNickname());
         return ResponseEntity.created(null).body(ApiUtils.success(userMapper.toUserResDto(user)));
     }
 
@@ -83,6 +83,16 @@ public class UserController implements UserApi {
                 .map(userMapper::toUserSpotResDto)
                 .toList();
         return ResponseEntity.created(null).body(ApiUtils.success(userSpotResDtos));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<String>> checkUserNickname(NicknameReqDto nicknameReqDto) {
+        boolean existedNickname = userService.checkUserNickname(nicknameReqDto.getNickname());
+        if(existedNickname){
+            // 닉네임 존재 -> 등록 불가능
+            return ResponseEntity.ok(ApiUtils.error("닉네임이 이미 존재합니다."));
+        }
+        return ResponseEntity.ok(ApiUtils.success("닉네임 등록이 가능합니다."));
     }
 
 }

@@ -51,12 +51,16 @@ public class UserService {
     }
 
     public User registerNickname(User user, String nickname){
-        boolean existedNickname = userRepository.existsByNickname(nickname);
+        boolean existedNickname = checkUserNickname(nickname);
         if(existedNickname){
             throw new CommonException(BError.EXIST, "Nickname");
         }
         user.setNickname(nickname);
         return user;
+    }
+
+    public boolean checkUserNickname(String nickname){
+        return userRepository.existsByNickname(nickname);
     }
 
     public User getUser(){
