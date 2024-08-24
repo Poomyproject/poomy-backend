@@ -1,6 +1,6 @@
 package com.poomy.mainserver.user.dto.swagger;
 
-import com.poomy.mainserver.user.dto.UserMoodResDto;
+import com.poomy.mainserver.user.dto.res.UserMoodResDto;
 import com.poomy.mainserver.util.api.ApiResult;
 
 import java.util.List;

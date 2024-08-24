@@ -1,4 +1,4 @@
-package com.poomy.mainserver.user.dto;
+package com.poomy.mainserver.user.dto.res;
 
 import lombok.Builder;
 import lombok.Getter;

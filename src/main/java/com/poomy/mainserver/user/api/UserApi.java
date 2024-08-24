@@ -1,6 +1,10 @@
 package com.poomy.mainserver.user.api;
 
-import com.poomy.mainserver.user.dto.*;
+import com.poomy.mainserver.user.dto.req.*;
+import com.poomy.mainserver.user.dto.res.UserInfoResDto;
+import com.poomy.mainserver.user.dto.res.UserMoodResDto;
+import com.poomy.mainserver.user.dto.res.UserResDto;
+import com.poomy.mainserver.user.dto.res.UserSpotResDto;
 import com.poomy.mainserver.user.dto.swagger.UserApiResult;
 import com.poomy.mainserver.user.dto.swagger.UserMoodApiResult;
 import com.poomy.mainserver.user.dto.swagger.UserSpotApiResult;

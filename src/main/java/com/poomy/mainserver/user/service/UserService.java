@@ -7,7 +7,7 @@ import com.poomy.mainserver.spot.dto.SpotNmResDto;
 import com.poomy.mainserver.spot.entity.Spot;
 import com.poomy.mainserver.spot.mapper.SpotMapper;
 import com.poomy.mainserver.user.dto.CustomUserDetails;
-import com.poomy.mainserver.user.dto.UserInfoResDto;
+import com.poomy.mainserver.user.dto.res.UserInfoResDto;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserMood;
 import com.poomy.mainserver.user.entity.UserSpot;

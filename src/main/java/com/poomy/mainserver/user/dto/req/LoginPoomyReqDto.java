@@ -1,4 +1,4 @@
-package com.poomy.mainserver.user.dto;
+package com.poomy.mainserver.user.dto.req;
 
 import jakarta.validation.constraints.Email;
 import lombok.Getter;

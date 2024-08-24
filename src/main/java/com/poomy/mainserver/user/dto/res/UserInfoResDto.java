@@ -1,8 +1,7 @@
-package com.poomy.mainserver.user.dto;
+package com.poomy.mainserver.user.dto.res;
 
 import com.poomy.mainserver.mood.dto.MoodNmResDto;
 import com.poomy.mainserver.spot.dto.SpotNmResDto;
-import com.poomy.mainserver.spot.dto.SpotResDto;
 import lombok.Builder;
 import lombok.Getter;
 
