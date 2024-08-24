@@ -22,8 +22,6 @@ public interface MoodApi {
     @Operation(summary = "선택 가능한 분위기 리스트", description = "사용자가 선택 가능한 분위기들을 불러온다.")
     @ApiResponse(responseCode = "200", description = "OK",
             content = @Content(schema = @Schema(implementation = MoodApiResult.class)))
-    @ApiResponse(responseCode = "500", description = "Internal Server Error",
-            content = @Content(schema = @Schema(implementation = ApiErrorResult.class)))
     @GetMapping("")
     ResponseEntity<ApiResult<List<MoodResDto>>> getMoods();
 
