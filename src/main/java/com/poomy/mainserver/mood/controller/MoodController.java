@@ -6,6 +6,7 @@ import com.poomy.mainserver.mood.entity.Mood;
 import com.poomy.mainserver.mood.mapper.MoodMapper;
 import com.poomy.mainserver.mood.service.MoodService;
 import com.poomy.mainserver.util.api.ApiResult;
+import com.poomy.mainserver.util.api.ApiUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,6 @@ public class MoodController implements MoodApi {
         List<Mood> moods =  moodService.getMoods();
         List<MoodResDto> moodResDtos = moods.stream()
                 .map(moodMapper::toMoodResDto).toList();
-        return ResponseEntity.ok(new ApiResult<>(moodResDtos));
+        return ResponseEntity.ok(ApiUtils.success(moodResDtos));
     }
 }

@@ -4,7 +4,6 @@ import com.poomy.mainserver.user.dto.*;
 import com.poomy.mainserver.user.dto.swagger.UserApiResult;
 import com.poomy.mainserver.user.dto.swagger.UserMoodApiResult;
 import com.poomy.mainserver.user.dto.swagger.UserSpotApiResult;
-import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;

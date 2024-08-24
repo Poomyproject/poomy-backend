@@ -6,6 +6,7 @@ import com.poomy.mainserver.spot.entity.Spot;
 import com.poomy.mainserver.spot.mapper.SpotMapper;
 import com.poomy.mainserver.spot.service.SpotService;
 import com.poomy.mainserver.util.api.ApiResult;
+import com.poomy.mainserver.util.api.ApiUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,6 @@ public class SpotController implements SpotApi {
         List<Spot> spots = spotService.getSpots();
         List<SpotResDto> spotResDtos = spots.stream()
                 .map(spotMapper::toSpotResDto).toList();
-        return ResponseEntity.ok(new ApiResult<>(spotResDtos));
+        return ResponseEntity.ok(ApiUtils.success(spotResDtos));
     }
 }

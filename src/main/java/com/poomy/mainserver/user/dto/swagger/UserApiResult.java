@@ -4,7 +4,8 @@ import com.poomy.mainserver.user.dto.UserResDto;
 import com.poomy.mainserver.util.api.ApiResult;
 
 public class UserApiResult extends ApiResult<UserResDto> {
-    public UserApiResult(UserResDto response) {
-        super(response);
+
+    public UserApiResult(boolean success, UserResDto response) {
+        super(success, response);
     }
 }

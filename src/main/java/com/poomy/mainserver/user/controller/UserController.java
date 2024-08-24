@@ -14,6 +14,7 @@ import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
 import com.poomy.mainserver.user.service.UserService;
 import com.poomy.mainserver.util.api.ApiResult;
+import com.poomy.mainserver.util.api.ApiUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class UserController implements UserApi {
         String jwtToken = jwtService.createJwt(user);
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
-                .body(new ApiResult<>(userMapper.toUserResDto(user)));
+                .body(ApiUtils.success(userMapper.toUserResDto(user)));
     }
 
     @Override
@@ -50,7 +51,7 @@ public class UserController implements UserApi {
         String jwtToken = jwtService.createJwt(user);
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
-                .body(new ApiResult<>(userMapper.toUserResDto(user)));
+                .body(ApiUtils.success(userMapper.toUserResDto(user)));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class UserController implements UserApi {
         log.info("register nickname : {}", registerNicknameReqDto.getNickname());
         User user = userService.getUser();
         user = userService.registerNickname(user, registerNicknameReqDto.getNickname());
-        return ResponseEntity.created(null).body(new ApiResult<>(userMapper.toUserResDto(user)));
+        return ResponseEntity.created(null).body(ApiUtils.success(userMapper.toUserResDto(user)));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class UserController implements UserApi {
                 .map(userMapper::toUserMoodResDto)
                 .toList();
         log.info("userAtmosphereResDtos : {}", userMoodResDtos);
-        return ResponseEntity.created(null).body(new ApiResult<>(userMoodResDtos));
+        return ResponseEntity.created(null).body(ApiUtils.success(userMoodResDtos));
     }
 
     @Override
@@ -81,7 +82,7 @@ public class UserController implements UserApi {
         List<UserSpotResDto> userSpotResDtos = userSpots.stream()
                 .map(userMapper::toUserSpotResDto)
                 .toList();
-        return ResponseEntity.created(null).body(new ApiResult<>(userSpotResDtos));
+        return ResponseEntity.created(null).body(ApiUtils.success(userSpotResDtos));
     }
 
 }

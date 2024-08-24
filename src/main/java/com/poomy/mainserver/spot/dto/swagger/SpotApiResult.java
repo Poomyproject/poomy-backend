@@ -6,8 +6,7 @@ import com.poomy.mainserver.util.api.ApiResult;
 import java.util.List;
 
 public class SpotApiResult extends ApiResult<List<SpotResDto>> {
-
-    public SpotApiResult(List<SpotResDto> response) {
-        super(response);
+    public SpotApiResult(boolean success, List<SpotResDto> response) {
+        super(success, response);
     }
 }

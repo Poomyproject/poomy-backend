@@ -6,7 +6,8 @@ import com.poomy.mainserver.util.api.ApiResult;
 import java.util.List;
 
 public class UserSpotApiResult extends ApiResult<List<UserSpotResDto>> {
-    public UserSpotApiResult(List<UserSpotResDto> response) {
-        super(response);
+
+    public UserSpotApiResult(boolean success, List<UserSpotResDto> response) {
+        super(success, response);
     }
 }

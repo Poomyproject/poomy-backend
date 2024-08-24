@@ -2,7 +2,6 @@ package com.poomy.mainserver.spot.api;
 
 import com.poomy.mainserver.spot.dto.SpotResDto;
 import com.poomy.mainserver.spot.dto.swagger.SpotApiResult;
-import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

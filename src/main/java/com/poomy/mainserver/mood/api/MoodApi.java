@@ -2,7 +2,6 @@ package com.poomy.mainserver.mood.api;
 
 import com.poomy.mainserver.mood.dto.MoodResDto;
 import com.poomy.mainserver.mood.dto.swagger.MoodApiResult;
-import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
