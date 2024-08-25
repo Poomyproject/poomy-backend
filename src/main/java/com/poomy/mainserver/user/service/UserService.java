@@ -1,8 +1,13 @@
 package com.poomy.mainserver.user.service;
 
+import com.poomy.mainserver.mood.dto.MoodNmResDto;
 import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.mood.mapper.MoodMapper;
+import com.poomy.mainserver.spot.dto.SpotNmResDto;
 import com.poomy.mainserver.spot.entity.Spot;
+import com.poomy.mainserver.spot.mapper.SpotMapper;
 import com.poomy.mainserver.user.dto.CustomUserDetails;
+import com.poomy.mainserver.user.dto.res.UserInfoResDto;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserMood;
 import com.poomy.mainserver.user.entity.UserSpot;
@@ -32,6 +37,8 @@ public class UserService {
     private final UserMoodRepository userMoodRepository;
     private final UserSpotRepository userSpotRepository;
     private final UserMapper userMapper;
+    private final MoodMapper moodMapper;
+    private final SpotMapper spotMapper;
 
     public User loginGoogle(String googleEmail){
         Optional<User> user = userRepository.findByGoogleEmail(googleEmail);
@@ -51,12 +58,16 @@ public class UserService {
     }
 
     public User registerNickname(User user, String nickname){
-        boolean existedNickname = userRepository.existsByNickname(nickname);
+        boolean existedNickname = checkUserNickname(nickname);
         if(existedNickname){
             throw new CommonException(BError.EXIST, "Nickname");
         }
         user.setNickname(nickname);
         return user;
+    }
+
+    public boolean checkUserNickname(String nickname){
+        return userRepository.existsByNickname(nickname);
     }
 
     public User getUser(){
@@ -73,6 +84,7 @@ public class UserService {
 
     public List<UserMood> registerUserMood(List<Mood> moods) {
         User user = getUser();
+        userMoodRepository.deleteAllByUser(user);
         List<UserMood> userMoods = moods.stream()
                 .map(mood -> userMapper.toUserMood(user, mood))
                 .toList();
@@ -83,6 +95,7 @@ public class UserService {
 
     public List<UserSpot> registerUserSpot(List<Spot> spots){
         User user = getUser();
+        userSpotRepository.deleteAllByUser(user);
         List<UserSpot> userSpots = spots.stream()
                 .map(spot -> userMapper.toUserSpot(user, spot))
                 .toList();
@@ -91,4 +104,20 @@ public class UserService {
         return userSpots;
     }
 
+    public UserInfoResDto getUserInfo() {
+        User user = getUser();
+        List<MoodNmResDto> moodNmResDtos = user.getUserMoods().stream()
+                .map(userMood -> moodMapper.toMoodNmResDto(userMood.getMood()))
+                .toList();
+        List<SpotNmResDto> spotNmResDtos = user.getUserSpots().stream()
+                .map(userSpot -> spotMapper.toSpotNmResDto(userSpot.getSpot()))
+                .toList();
+        return UserInfoResDto.builder()
+                .nickname(user.getNickname())
+                .googleEmail(user.getGoogleEmail())
+                .imgUrl(user.getImgUrl())
+                .moods(moodNmResDtos)
+                .spots(spotNmResDtos)
+                .build();
+    }
 }

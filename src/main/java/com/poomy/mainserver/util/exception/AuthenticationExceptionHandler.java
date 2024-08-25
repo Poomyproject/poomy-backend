@@ -1,7 +1,7 @@
 package com.poomy.mainserver.util.exception;
 
-import com.poomy.mainserver.util.api.ApiErrorResult;
 import com.poomy.mainserver.util.api.ApiResult;
+import com.poomy.mainserver.util.api.ApiUtils;
 import com.poomy.mainserver.util.exception.ErrorResponse.FieldError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +42,7 @@ public class AuthenticationExceptionHandler implements AuthenticationEntryPoint 
         List<FieldError> fieldErrors = FieldError.of("token exception",
                 (String) request.getAttribute("error"),
                 (String) request.getAttribute("errorMessage"));
-        ApiErrorResult result = new ApiErrorResult(ErrorResponse.of(errorCode, fieldErrors));
+        ApiResult result = ApiUtils.error(ErrorResponse.of(errorCode, fieldErrors));
         response.setStatus(errorCode.getStatus());
         response.getWriter().write(objectMapper.writeValueAsString(result));
     }

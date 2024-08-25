@@ -1,4 +1,4 @@
-package com.poomy.mainserver.user.dto;
+package com.poomy.mainserver.user.dto.req;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RegisterNicknameReqDto {
+public class NicknameReqDto {
 
     @Pattern(regexp = "[가-힣]+", message = "닉네임은 한글만 입력 가능합니다")
     @Size(min = 1, max = 5, message = "닉네임은 최대 5자까지 입력 가능합니다")

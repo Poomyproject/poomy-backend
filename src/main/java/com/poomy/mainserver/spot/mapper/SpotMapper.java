@@ -1,5 +1,7 @@
 package com.poomy.mainserver.spot.mapper;
 
+import com.poomy.mainserver.spot.dto.SpotNmPrefResDto;
+import com.poomy.mainserver.spot.dto.SpotNmResDto;
 import com.poomy.mainserver.spot.dto.SpotResDto;
 import com.poomy.mainserver.spot.entity.Spot;
 import org.mapstruct.Mapper;
@@ -13,5 +15,7 @@ import org.springframework.stereotype.Component;
 public interface SpotMapper {
 
     SpotResDto toSpotResDto(Spot spot);
+    SpotNmResDto toSpotNmResDto(Spot spot);
+    SpotNmPrefResDto toSpotNmPrefResDto(Spot spot);
 
 }

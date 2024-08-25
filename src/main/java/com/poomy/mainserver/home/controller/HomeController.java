@@ -5,6 +5,7 @@ import com.poomy.mainserver.home.service.ShopService;
 import com.poomy.mainserver.newsletter.service.NewsletterService;
 import com.poomy.mainserver.user.service.UserService;
 import com.poomy.mainserver.util.api.ApiResult;
+import com.poomy.mainserver.util.api.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,22 +25,22 @@ public class HomeController {
 
     @GetMapping("/spot/shop")
     public ResponseEntity<ApiResult<HomeShopRes>> getShopsBySpot() {
-        return ResponseEntity.ok(new ApiResult<>(shopService.getShopListBySpot(userService.getUser())));
+        return ResponseEntity.ok(ApiUtils.success(shopService.getShopListBySpot(userService.getUser())));
     }
 
     @GetMapping("/spot")
     public ResponseEntity<ApiResult<List<SpotsRes>>> getSpots() {
-        return ResponseEntity.ok(new ApiResult<>(shopService.getSpotsList()));
+        return ResponseEntity.ok(ApiUtils.success(shopService.getSpotsList()));
     }
 
     @GetMapping("/newsletter")
     public ResponseEntity<ApiResult<List<HomeNewsletterRes>>> getNewsLetters() {
-        return ResponseEntity.ok(new ApiResult<>(newsletterService.getRandomNewsletters()));
+        return ResponseEntity.ok(ApiUtils.success(newsletterService.getRandomNewsletters()));
     }
 
     @GetMapping("/mood/shop")
     public ResponseEntity<ApiResult<List<HomeShopRes>>> getShopsByMood() {
-        return ResponseEntity.ok(new ApiResult<>(shopService.getShopListByMood(userService.getUser())));
+        return ResponseEntity.ok(ApiUtils.success(shopService.getShopListByMood(userService.getUser())));
     }
 
 

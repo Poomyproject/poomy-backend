@@ -2,9 +2,9 @@ package com.poomy.mainserver.user.mapper;
 
 import com.poomy.mainserver.mood.entity.Mood;
 import com.poomy.mainserver.spot.entity.Spot;
-import com.poomy.mainserver.user.dto.UserMoodResDto;
-import com.poomy.mainserver.user.dto.UserSpotResDto;
-import com.poomy.mainserver.user.dto.UserResDto;
+import com.poomy.mainserver.user.dto.res.UserMoodResDto;
+import com.poomy.mainserver.user.dto.res.UserSpotResDto;
+import com.poomy.mainserver.user.dto.res.UserResDto;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserMood;
 import com.poomy.mainserver.user.entity.UserSpot;

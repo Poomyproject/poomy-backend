@@ -1,4 +1,4 @@
-package com.poomy.mainserver.user.dto;
+package com.poomy.mainserver.user.dto.res;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class UserSpotResDto {
+public class UserMoodResDto {
 
     private String nickname;
-    private String spot;
+    private String mood;
 
 }

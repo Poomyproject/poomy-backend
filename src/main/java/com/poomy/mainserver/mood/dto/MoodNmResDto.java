@@ -7,10 +7,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class MoodResDto {
-
+public class MoodNmResDto {
     private Long id;
     private String name;
-    private String imgUrl;
-
 }

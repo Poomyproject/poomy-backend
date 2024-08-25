@@ -30,20 +30,17 @@ public class User extends BaseTime {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @Column(length = 127)
-    private String description;
-
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
 
     @Setter
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserMood> userMoods;
 
     @Setter
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserSpot> userSpots;
 
 }

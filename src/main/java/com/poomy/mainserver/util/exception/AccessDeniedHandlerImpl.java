@@ -1,7 +1,8 @@
 package com.poomy.mainserver.util.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poomy.mainserver.util.api.ApiErrorResult;
+import com.poomy.mainserver.util.api.ApiResult;
+import com.poomy.mainserver.util.api.ApiUtils;
 import com.poomy.mainserver.util.exception.ErrorResponse.FieldError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
                        AccessDeniedException e) throws IOException {
 
         List<FieldError> fieldErrors = FieldError.of("access denied exception", e.toString(), e.getMessage());
-        ApiErrorResult result = new ApiErrorResult(ErrorResponse.of(ErrorCode.ACCESS_DENIED, fieldErrors));
+        ApiResult result = ApiUtils.error(ErrorResponse.of(ErrorCode.ACCESS_DENIED, fieldErrors));
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(objectMapper.writeValueAsString(result));
     }
