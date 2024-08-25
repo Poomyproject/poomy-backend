@@ -1,5 +1,6 @@
 package com.poomy.mainserver.mood.api;
 
+import com.poomy.mainserver.mood.dto.MoodNmPrefResDto;
 import com.poomy.mainserver.mood.dto.MoodResDto;
 import com.poomy.mainserver.mood.dto.swagger.MoodApiResult;
 import com.poomy.mainserver.util.api.ApiResult;
@@ -23,5 +24,9 @@ public interface MoodApi {
             content = @Content(schema = @Schema(implementation = MoodApiResult.class)))
     @GetMapping("")
     ResponseEntity<ApiResult<List<MoodResDto>>> getMoods();
+
+    @Operation(summary = "사용자 취향을 고려한 분위기 리스트", description = "사용자가 선호 여부를 고려하여 전체 mood 리스트 조회")
+    @GetMapping("/with-preference")
+    ResponseEntity<ApiResult<List<MoodNmPrefResDto>>> getMoodNamePreference();
 
 }

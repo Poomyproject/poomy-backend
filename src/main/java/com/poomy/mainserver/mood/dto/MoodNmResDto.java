@@ -8,6 +8,6 @@ import lombok.ToString;
 @Builder
 @ToString
 public class MoodNmResDto {
-    private Integer id;
+    private Long id;
     private String name;
 }

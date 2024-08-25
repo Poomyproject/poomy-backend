@@ -1,5 +1,6 @@
 package com.poomy.mainserver.mood.mapper;
 
+import com.poomy.mainserver.mood.dto.MoodNmPrefResDto;
 import com.poomy.mainserver.mood.dto.MoodNmResDto;
 import com.poomy.mainserver.mood.dto.MoodResDto;
 import com.poomy.mainserver.mood.entity.Mood;
@@ -15,5 +16,6 @@ public interface MoodMapper {
 
     MoodResDto toMoodResDto(Mood mood);
     MoodNmResDto toMoodNmResDto(Mood mood);
+    MoodNmPrefResDto toMoodNmPrefResDto(Mood mood);
 
 }
