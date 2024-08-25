@@ -2,15 +2,17 @@ package com.poomy.mainserver.spot.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Builder
 @ToString
-public class SpotResDto {
+public class SpotNmPrefResDto {
 
     private Long id;
     private String name;
-    private String imgUrl;
+    @Setter
+    private Boolean isPreferred;
 
 }

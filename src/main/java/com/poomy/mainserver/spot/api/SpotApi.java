@@ -1,5 +1,6 @@
 package com.poomy.mainserver.spot.api;
 
+import com.poomy.mainserver.spot.dto.SpotNmPrefResDto;
 import com.poomy.mainserver.spot.dto.SpotResDto;
 import com.poomy.mainserver.spot.dto.swagger.SpotApiResult;
 import com.poomy.mainserver.util.api.ApiResult;
@@ -23,5 +24,10 @@ public interface SpotApi {
             content = @Content(schema = @Schema(implementation = SpotApiResult.class)))
     @GetMapping("")
     ResponseEntity<ApiResult<List<SpotResDto>>> getSpots();
+
+    @Operation(summary = "사용자 취향을 고려한 핫플레이스 리스트", description = "사용자가 선호 여부를 고려하여 전체 spot 리스트 조회")
+    @GetMapping("/with-preference")
+    ResponseEntity<ApiResult<List<SpotNmPrefResDto>>> getSpotNamePreference();
+
 
 }
