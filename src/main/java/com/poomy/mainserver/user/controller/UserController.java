@@ -63,7 +63,7 @@ public class UserController implements UserApi {
         log.info("register nickname : {}", nicknameReqDto.getNickname());
         User user = userService.getUser();
         user = userService.registerNickname(user, nicknameReqDto.getNickname());
-        return ResponseEntity.created(null).body(ApiUtils.success(userMapper.toUserResDto(user)));
+        return ResponseEntity.ok(ApiUtils.success(userMapper.toUserResDto(user)));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class UserController implements UserApi {
                 .map(userMapper::toUserMoodResDto)
                 .toList();
         log.info("userAtmosphereResDtos : {}", userMoodResDtos);
-        return ResponseEntity.created(null).body(ApiUtils.success(userMoodResDtos));
+        return ResponseEntity.ok(ApiUtils.success(userMoodResDtos));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class UserController implements UserApi {
         List<UserSpotResDto> userSpotResDtos = userSpots.stream()
                 .map(userMapper::toUserSpotResDto)
                 .toList();
-        return ResponseEntity.created(null).body(ApiUtils.success(userSpotResDtos));
+        return ResponseEntity.ok(ApiUtils.success(userSpotResDtos));
     }
 
     @Override

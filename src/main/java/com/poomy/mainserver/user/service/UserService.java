@@ -84,6 +84,7 @@ public class UserService {
 
     public List<UserMood> registerUserMood(List<Mood> moods) {
         User user = getUser();
+        userMoodRepository.deleteAllByUser(user);
         List<UserMood> userMoods = moods.stream()
                 .map(mood -> userMapper.toUserMood(user, mood))
                 .toList();
@@ -94,6 +95,7 @@ public class UserService {
 
     public List<UserSpot> registerUserSpot(List<Spot> spots){
         User user = getUser();
+        userSpotRepository.deleteAllByUser(user);
         List<UserSpot> userSpots = spots.stream()
                 .map(spot -> userMapper.toUserSpot(user, spot))
                 .toList();

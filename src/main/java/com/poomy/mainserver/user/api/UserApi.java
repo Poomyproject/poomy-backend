@@ -41,20 +41,20 @@ public interface UserApi {
     @PostMapping("/login/poomy")
     ResponseEntity<ApiResult<UserResDto>> loginPoomy(@Valid @RequestBody LoginPoomyReqDto loginGoogleReqDto);
 
-    @Operation(summary = "닉네임이 등록", description = "닉네임 중복 여부를 검사하여 등록이 되지 않을 경우 등록한다.")
-    @ApiResponse(responseCode = "201", description = "Created",
+    @Operation(summary = "닉네임이 등록 및 수정", description = "닉네임 중복 여부를 검사하여 중복이 되지 않을 경우 등록한다.")
+    @ApiResponse(responseCode = "200", description = "Created",
             content = @Content(schema = @Schema(implementation = UserApiResult.class)))
     @PostMapping("/nickname")
     ResponseEntity<ApiResult<UserResDto>> registerNickname(@Valid @RequestBody NicknameReqDto nicknameReqDto);
 
-    @Operation(summary = "사용자 취향 등록", description = "앱 처음 사용 시, 취향 등록 시 사용한다.")
-    @ApiResponse(responseCode = "201", description = "Created",
+    @Operation(summary = "사용자 분위기 등록 및 수정", description = "분위기 등록 및 수정할 때 사용한다.")
+    @ApiResponse(responseCode = "200", description = "Created",
             content = @Content(schema = @Schema(implementation = UserMoodApiResult.class)))
     @PostMapping("/moods")
     ResponseEntity<ApiResult<List<UserMoodResDto>>> registerUserMoods(@Valid @RequestBody RegisterUserMoodsReqDto registerUserMoodsReqDto);
 
-    @Operation(summary = "사용자 핫 플레이스 등록", description = "앱 처음 사용 시, 핫 플레이스 등록 시 사용한다.")
-    @ApiResponse(responseCode = "201", description = "Created",
+    @Operation(summary = "사용자 핫플레이스 등록 및 수정", description = "핫플레이스 등록 및 수정할 때 사용한다.")
+    @ApiResponse(responseCode = "200", description = "Created",
             content = @Content(schema = @Schema(implementation = UserSpotApiResult.class)))
     @PostMapping("/spots")
     ResponseEntity<ApiResult<List<UserSpotResDto>>> registerUserSpots(@Valid @RequestBody RegisterUserSpotsReqDto registerUserSpotsReqDto);
