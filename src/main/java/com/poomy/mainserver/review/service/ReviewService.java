@@ -89,4 +89,10 @@ public class ReviewService {
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, reviewId + " of reviewId"));
         return review.toReviewResDto();
     }
+
+    public ReviewResDto getReviewByReviewImgId(Long reviewImgId) {
+        ReviewImage reviewImage = reviewImageRepository.findById(reviewImgId)
+                .orElseThrow(() -> new CommonException(BError.NOT_EXIST, reviewImgId + " of reviewImgId"));
+        return reviewImage.getReview().toReviewResDto();
+    }
 }

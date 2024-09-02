@@ -37,4 +37,10 @@ public class ReviewController implements ReviewApi {
         ReviewResDto reviewResDto = reviewService.getReviewByReviewId(reviewId);
         return ResponseEntity.ok(ApiUtils.success(reviewResDto));
     }
+
+    @Override
+    public ResponseEntity<ApiResult<ReviewResDto>> getReviewByReviewImgId(Long reviewImgId) {
+        ReviewResDto reviewResDto = reviewService.getReviewByReviewImgId(reviewImgId);
+        return ResponseEntity.ok(ApiUtils.success(reviewResDto));
+    }
 }
