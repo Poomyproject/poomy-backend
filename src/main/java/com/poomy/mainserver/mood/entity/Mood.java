@@ -1,6 +1,7 @@
 package com.poomy.mainserver.mood.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.poomy.mainserver.review.entity.ReviewMood;
 import com.poomy.mainserver.user.entity.UserMood;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,8 +28,10 @@ public class Mood {
     @Column(length = 15)
     private String prefix;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "mood", fetch = FetchType.LAZY)
     private List<UserMood> userMoods;
+
+    @OneToMany(mappedBy = "mood", fetch = FetchType.LAZY)
+    private List<ReviewMood> reviewMoods;
 
 }

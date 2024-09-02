@@ -1,7 +1,8 @@
-package com.poomy.mainserver.user.entity;
+package com.poomy.mainserver.review.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.util.vo.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,19 +13,19 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_moods",
+@Table(name = "review_moods",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"user_id", "mood_id"})
+                @UniqueConstraint(columnNames = {"review_id", "mood_id"})
         })
-public class UserMood extends BaseTime {
+public class ReviewMood extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     @ManyToOne
     @JoinColumn(name = "mood_id")
