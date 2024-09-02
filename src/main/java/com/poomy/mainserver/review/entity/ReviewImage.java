@@ -1,5 +1,6 @@
 package com.poomy.mainserver.review.entity;
 
+import com.poomy.mainserver.review.dto.res.ReviewImageResDto;
 import com.poomy.mainserver.util.vo.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,5 +27,12 @@ public class ReviewImage extends BaseTime {
 
     @Column(length = 511)
     private String url;
+
+    public ReviewImageResDto toReviewImageResDto(){
+        return ReviewImageResDto.builder()
+                .id(id)
+                .url(url)
+                .build();
+    }
 
 }
