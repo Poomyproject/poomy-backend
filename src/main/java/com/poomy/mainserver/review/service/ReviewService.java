@@ -3,11 +3,13 @@ package com.poomy.mainserver.review.service;
 import com.poomy.mainserver.home.entity.Shop;
 import com.poomy.mainserver.home.repository.ShopRepository;
 import com.poomy.mainserver.review.dto.req.GetReviewReqDto;
+import com.poomy.mainserver.review.dto.res.GetReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.GetReviewResDto;
 import com.poomy.mainserver.review.dto.res.ReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.ReviewResDto;
 import com.poomy.mainserver.review.entity.Review;
 import com.poomy.mainserver.review.entity.ReviewImage;
+import com.poomy.mainserver.review.repository.ReviewImageRepository;
 import com.poomy.mainserver.review.repository.ReviewRepository;
 import com.poomy.mainserver.util.exception.common.BError;
 import com.poomy.mainserver.util.exception.common.CommonException;
@@ -25,6 +27,7 @@ public class ReviewService {
 
     private final ShopRepository shopRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
     public GetReviewResDto getReviews(GetReviewReqDto reqDto) {
         int page = reqDto.getPage();
@@ -43,9 +46,9 @@ public class ReviewService {
                 .toList();
         int totalRecommend = reviews.stream().filter(Review::getIsRecommend).toList().size();
         List<ReviewResDto> reviewResDtos = reviews.stream()
-                .map(Review::toReviewResDto)
                 .skip((long) (page - 1) *limit)
                 .limit(limit)
+                .map(Review::toReviewResDto)
                 .toList();
         return GetReviewResDto.builder()
                 .totalRecommend(totalRecommend)
@@ -54,6 +57,25 @@ public class ReviewService {
                 .totalReview(totalReview)
                 .page(page)
                 .reviews(reviewResDtos)
+                .build();
+    }
+
+    public GetReviewImageResDto getReviewImages(GetReviewReqDto reqDto) {
+        int page = reqDto.getPage();
+        int limit = reqDto.getLimit();
+        Shop shop = getShopById(reqDto.getPoomShopId());
+        List<Review> reviews = reviewRepository.findAllByShop(shop);
+        List<ReviewImage> reviewImages = reviewImageRepository.findAllByReviewIn(reviews);
+        List<ReviewImageResDto> reviewImageResDtos = reviewImages.stream()
+                .sorted(Comparator.comparing(ReviewImage::getCreatedAt).reversed())
+                .skip((long) (page - 1) *limit)
+                .limit(limit)
+                .map(ReviewImage::toReviewImageResDto)
+                .toList();
+        return GetReviewImageResDto.builder()
+                .totalImgUrl(reviewImages.size())
+                .page(page)
+                .imgUrls(reviewImageResDtos)
                 .build();
     }
 
