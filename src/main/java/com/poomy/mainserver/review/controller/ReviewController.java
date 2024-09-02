@@ -4,17 +4,14 @@ import com.poomy.mainserver.review.api.ReviewApi;
 import com.poomy.mainserver.review.dto.req.GetReviewReqDto;
 import com.poomy.mainserver.review.dto.res.GetReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.GetReviewResDto;
-import com.poomy.mainserver.review.dto.res.ReviewImageResDto;
+import com.poomy.mainserver.review.dto.res.ReviewResDto;
 import com.poomy.mainserver.review.service.ReviewService;
-import com.poomy.mainserver.user.service.UserService;
 import com.poomy.mainserver.util.api.ApiResult;
 import com.poomy.mainserver.util.api.ApiUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -33,5 +30,11 @@ public class ReviewController implements ReviewApi {
     public ResponseEntity<ApiResult<GetReviewImageResDto>> getReviewImages(GetReviewReqDto reqDto) {
         GetReviewImageResDto reviewImageResDtos = reviewService.getReviewImages(reqDto);
         return ResponseEntity.ok(ApiUtils.success(reviewImageResDtos));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<ReviewResDto>> getReviewByReviewId(Long reviewId) {
+        ReviewResDto reviewResDto = reviewService.getReviewByReviewId(reviewId);
+        return ResponseEntity.ok(ApiUtils.success(reviewResDto));
     }
 }

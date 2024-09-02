@@ -4,6 +4,7 @@ import com.poomy.mainserver.review.dto.req.GetReviewReqDto;
 import com.poomy.mainserver.review.dto.res.GetReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.GetReviewResDto;
 import com.poomy.mainserver.review.dto.res.ReviewImageResDto;
+import com.poomy.mainserver.review.dto.res.ReviewResDto;
 import com.poomy.mainserver.util.api.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -31,6 +33,10 @@ public interface ReviewApi {
             @Valid @ModelAttribute GetReviewReqDto reqDto
     );
 
-
+    @Operation(summary = "reviewId을 이용한 리뷰 상세 조회")
+    @GetMapping("/{reviewId}")
+    ResponseEntity<ApiResult<ReviewResDto>> getReviewByReviewId(
+            @PathVariable Long reviewId
+    );
 
 }
