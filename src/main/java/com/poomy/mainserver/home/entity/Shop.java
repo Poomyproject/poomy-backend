@@ -1,6 +1,8 @@
 package com.poomy.mainserver.home.entity;
 
 import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.review.entity.Review;
+import com.poomy.mainserver.review.entity.ReviewMood;
 import com.poomy.mainserver.spot.entity.Spot;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "poom_shops")
@@ -47,4 +50,7 @@ public class Shop {
     private Double latitude;
 
     private Double longitude;
+
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 }
