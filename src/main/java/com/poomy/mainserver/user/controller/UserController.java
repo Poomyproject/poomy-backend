@@ -68,7 +68,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<ApiResult<List<UserMoodResDto>>> registerUserMoods(RegisterUserMoodsReqDto registerUserMoodsReqDto) {
-        List<Integer> moodIds = registerUserMoodsReqDto.getMoodIds();
+        List<Long> moodIds = registerUserMoodsReqDto.getMoodIds();
         List<Mood> moods = moodService.getMoods(moodIds);
         List<UserMood> userMoods = userService.registerUserMood(moods);
         List<UserMoodResDto> userMoodResDtos = userMoods.stream()
@@ -80,7 +80,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<ApiResult<List<UserSpotResDto>>> registerUserSpots(RegisterUserSpotsReqDto registerUserSpotsReqDto) {
-        List<Integer> spotIds = registerUserSpotsReqDto.getSpotIds();
+        List<Long> spotIds = registerUserSpotsReqDto.getSpotIds();
         List<Spot> spots = spotService.getSpots(spotIds);
         List<UserSpot> userSpots = userService.registerUserSpot(spots);
         List<UserSpotResDto> userSpotResDtos = userSpots.stream()

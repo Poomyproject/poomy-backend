@@ -25,7 +25,7 @@ public class MoodService {
         return moodRepository.findAll();
     }
 
-    public List<Mood> getMoods(List<Integer> moodIds){
+    public List<Mood> getMoods(List<Long> moodIds){
         return moodIds.stream()
                 .map(moodId -> moodRepository.findById(moodId)
                         .orElseThrow(() -> new CommonException(BError.NOT_EXIST, moodId + " of moodId")))
