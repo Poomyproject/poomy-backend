@@ -9,6 +9,7 @@ import com.poomy.mainserver.util.vo.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,17 +39,22 @@ public class Review extends BaseTime {
     @Column(length = 511)
     private String content;
 
+    @Setter
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
     private List<ReviewMood> reviewMoods;
 
+    @Setter
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
     private List<ReviewImage> reviewImages;
 
     public ReviewResDto toReviewResDto(){
         String reviewDateFormat = ChangeFormat.reviewFormat(getCreatedAt());
-        List<ReviewImageResDto> imgUrls = reviewImages.stream()
-                .map(ReviewImage::toReviewImageResDto)
-                .toList();
+        List<ReviewImageResDto> imgUrls = new ArrayList<>();
+        if(reviewImages != null){
+            imgUrls = reviewImages.stream()
+                        .map(ReviewImage::toReviewImageResDto)
+                        .toList();
+        }
         return ReviewResDto.builder()
                 .id(id)
                 .userNickName(user.getNickname())

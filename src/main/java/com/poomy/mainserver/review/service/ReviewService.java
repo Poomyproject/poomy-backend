@@ -2,17 +2,24 @@ package com.poomy.mainserver.review.service;
 
 import com.poomy.mainserver.home.entity.Shop;
 import com.poomy.mainserver.home.repository.ShopRepository;
+import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.mood.service.MoodService;
 import com.poomy.mainserver.review.dto.req.GetReviewReqDto;
+import com.poomy.mainserver.review.dto.req.RegisterReviewReqDto;
 import com.poomy.mainserver.review.dto.res.GetReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.GetReviewResDto;
 import com.poomy.mainserver.review.dto.res.ReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.ReviewResDto;
 import com.poomy.mainserver.review.entity.Review;
 import com.poomy.mainserver.review.entity.ReviewImage;
+import com.poomy.mainserver.review.entity.ReviewMood;
 import com.poomy.mainserver.review.repository.ReviewImageRepository;
+import com.poomy.mainserver.review.repository.ReviewMoodRepository;
 import com.poomy.mainserver.review.repository.ReviewRepository;
+import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.util.exception.common.BError;
 import com.poomy.mainserver.util.exception.common.CommonException;
+import com.poomy.mainserver.util.s3.S3ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +35,10 @@ public class ReviewService {
     private final ShopRepository shopRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final ReviewMoodRepository reviewMoodRepository;
+
+    private final MoodService moodService;
+    private final S3ImageService s3ImageService;
 
     public GetReviewResDto getReviews(GetReviewReqDto reqDto) {
         int page = reqDto.getPage();
@@ -94,5 +105,38 @@ public class ReviewService {
         ReviewImage reviewImage = reviewImageRepository.findById(reviewImgId)
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, reviewImgId + " of reviewImgId"));
         return reviewImage.getReview().toReviewResDto();
+    }
+
+    public ReviewResDto registerReview(User user, RegisterReviewReqDto reqDto) {
+        Shop shop = getShopById(reqDto.getPoomShopId());
+        Review review = Review.builder()
+                .user(user)
+                .shop(shop)
+                .isRecommend(reqDto.getIsRecommend())
+                .content(reqDto.getContent())
+                .build();
+        Review savedReview = reviewRepository.save(review);
+        List<Mood> moods = moodService.getMoods(reqDto.getMoodIds());
+        List<ReviewMood> reviewMoods = moods.stream()
+                .map(mood -> ReviewMood.builder()
+                        .review(savedReview)
+                        .mood(mood)
+                        .build())
+                .toList();
+        List<ReviewMood> savedReviewMoods = reviewMoodRepository.saveAll(reviewMoods);
+        savedReview.setReviewMoods(savedReviewMoods);
+        //TODO 리뷰 이미지 저장
+        List<String> imgUrls = reqDto.getMultipartFiles().stream()
+                .map(s3ImageService::upload)
+                .toList();
+        List<ReviewImage> reviewImages = imgUrls.stream()
+                .map(imgUrl -> ReviewImage.builder()
+                        .review(savedReview)
+                        .url(imgUrl)
+                        .build())
+                .toList();
+        List<ReviewImage> savedReviewImages = reviewImageRepository.saveAll(reviewImages);
+        savedReview.setReviewImages(savedReviewImages);
+        return savedReview.toReviewResDto();
     }
 }

@@ -1,6 +1,7 @@
 package com.poomy.mainserver.review.api;
 
 import com.poomy.mainserver.review.dto.req.GetReviewReqDto;
+import com.poomy.mainserver.review.dto.req.RegisterReviewReqDto;
 import com.poomy.mainserver.review.dto.res.GetReviewImageResDto;
 import com.poomy.mainserver.review.dto.res.GetReviewResDto;
 import com.poomy.mainserver.review.dto.res.ReviewImageResDto;
@@ -40,6 +41,12 @@ public interface ReviewApi {
     @GetMapping("/detail")
     ResponseEntity<ApiResult<ReviewResDto>> getReviewByReviewImgId(
             @RequestParam Long reviewImgId
+    );
+
+    @Operation(summary = "review 등록")
+    @PostMapping("")
+    ResponseEntity<ApiResult<ReviewResDto>> registerReview(
+            @Valid @ModelAttribute RegisterReviewReqDto reqDto
     );
 
 }
