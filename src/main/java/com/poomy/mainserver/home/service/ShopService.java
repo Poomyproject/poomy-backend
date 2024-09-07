@@ -8,7 +8,9 @@ import com.poomy.mainserver.home.dto.res.SpotsRes;
 import com.poomy.mainserver.home.repository.ShopImageRepository;
 import com.poomy.mainserver.home.repository.ShopRepository;
 import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.mood.repository.MoodPrefixRepository;
 import com.poomy.mainserver.mood.repository.MoodRepository;
+import com.poomy.mainserver.spot.repository.SpotPrefixRepository;
 import com.poomy.mainserver.spot.repository.SpotRepository;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserMood;
@@ -31,7 +33,9 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final ShopImageRepository shopImageRepository;
     private final SpotRepository spotRepository;
+    private final SpotPrefixRepository spotPrefixRepository;
     private final MoodRepository moodRepository;
+    private final MoodPrefixRepository moodPrefixRepository;
     private final FavoriteRepository favoriteRepository;
 
 
@@ -52,7 +56,7 @@ public class ShopService {
 
         return HomeShopRes.builder()
                 .id(randomUserSpot.getId())
-                .prefix(randomUserSpot.getSpot().getPrefix())
+                .prefix(spotPrefixRepository.findSpotPrefixBy().getName())
                 .hashtag(randomUserSpot.getSpot().getName())
                 .shopList(shops)
                 .build();
@@ -81,9 +85,11 @@ public class ShopService {
                 return ShopByMoodRes.ofShopByMood(shop, image);
             }).toList();
 
+            String moodPrefix = moodPrefixRepository.findMoodPrefixById(userMood.getId()).getName();
+
             shopList.add(HomeShopRes.builder()
                     .id(userMood.getId())
-                    .prefix(userMood.getPrefix())
+                    .prefix(moodPrefix)
                     .hashtag(userMood.getName())
                     .shopList(homeShopResList)
                     .build());
