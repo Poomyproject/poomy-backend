@@ -1,8 +1,8 @@
 package com.poomy.mainserver.home.entity;
 
+import com.poomy.mainserver.detail.dto.res.ShopDetailRes;
 import com.poomy.mainserver.mood.entity.Mood;
 import com.poomy.mainserver.review.entity.Review;
-import com.poomy.mainserver.review.entity.ReviewMood;
 import com.poomy.mainserver.spot.entity.Spot;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -53,4 +53,21 @@ public class Shop {
 
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Review> reviews;
+
+    public ShopDetailRes toDto(Boolean favorite, List<ShopImage> shopImageList) {
+        return ShopDetailRes.builder()
+                .shopId(id)
+                .name(name)
+                .location(location)
+                .phoneNumber(phoneNumber)
+                .nearbyStation(nearbyStation)
+                .favorite(favorite)
+                .spot(spot.getName())
+                .mood(mood.getName())
+                .latitude(latitude)
+                .longitude(longitude)
+                .shopImageList(shopImageList)
+                .openingHours(startTime.toString() + endTime.toString())
+                .build();
+    }
 }

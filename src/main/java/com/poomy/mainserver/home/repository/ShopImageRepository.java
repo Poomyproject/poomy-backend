@@ -3,7 +3,11 @@ package com.poomy.mainserver.home.repository;
 import com.poomy.mainserver.home.entity.ShopImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ShopImageRepository extends JpaRepository<ShopImage,Long> {
+import java.util.List;
 
-    ShopImage findShopImageByShop_Id(Long ShopId);
+public interface ShopImageRepository extends JpaRepository<ShopImage, Long> {
+
+    ShopImage findShopImageByShop_Id(Long shopId);
+
+    List<ShopImage> findShopImagesByShop_Id(Long shopId);
 }
