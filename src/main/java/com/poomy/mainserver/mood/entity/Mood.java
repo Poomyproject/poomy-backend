@@ -1,6 +1,5 @@
 package com.poomy.mainserver.mood.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.poomy.mainserver.review.entity.ReviewMood;
 import com.poomy.mainserver.user.entity.UserMood;
 import jakarta.persistence.*;
@@ -24,9 +23,6 @@ public class Mood {
 
     @Column(name = "img_url")
     private String imgUrl;
-
-    @Column(length = 15)
-    private String prefix;
 
     @OneToMany(mappedBy = "mood", fetch = FetchType.LAZY)
     private List<UserMood> userMoods;
