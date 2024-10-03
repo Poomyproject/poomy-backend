@@ -1,5 +1,6 @@
 package com.poomy.mainserver.newsletter.entity;
 
+import com.poomy.mainserver.home.entity.Shop;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,12 +16,39 @@ public class Newsletter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String headline;
 
-    private String thumbnail;
+    private String subtopic;
 
-    @Column(name = "sub_title")
-    private String subTitle;
+    @OneToOne
+    @JoinColumn(name = "shop1_id")
+    private Shop shop1;
 
-    private String explanation;
+    @OneToOne
+    @JoinColumn(name = "shop2_id")
+    private Shop shop2;
+
+    @OneToOne
+    @JoinColumn(name = "shop3_id")
+    private Shop shop3;
+
+    @Column(name = "first_keyword")
+    private String firstKeyword;
+
+    @Column(name = "second_keyword")
+    private String secondKeyword;
+
+    @Column(name = "third_keyword")
+    private String thirdKeyword;
+
+    @Column(name = "text_top")
+    private String textTop;
+
+    @Column(name = "text_bottom")
+    private String textBottom;
+
+    @Column(name = "user_feedback")
+    private Long userFeedback;
+
 }
+
