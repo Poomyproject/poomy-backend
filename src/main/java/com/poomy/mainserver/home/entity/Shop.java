@@ -67,7 +67,7 @@ public class Shop {
                 .latitude(latitude)
                 .longitude(longitude)
                 .shopImageList(shopImageList)
-                .openingHours(startTime.toString() + endTime.toString())
+                .openingHours("test 영업시간 ~~")
                 .build();
     }
 }

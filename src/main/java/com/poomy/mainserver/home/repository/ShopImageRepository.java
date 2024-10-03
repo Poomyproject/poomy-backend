@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ShopImageRepository extends JpaRepository<ShopImage, Long> {
 
-    ShopImage findShopImageByShop_Id(Long shopId);
+    ShopImage findTop1ByShop_Id(Long shopId);
 
     List<ShopImage> findShopImagesByShop_Id(Long shopId);
 }

@@ -49,7 +49,7 @@ public class ShopService {
         }
 
         List<ShopBySpotRes> shops = shopRepository.findShopsBySpot(randomUserSpot.getSpot().getId()).stream().map(shop -> {
-            String image = shopImageRepository.findShopImageByShop_Id(shop.getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).getUrl();
             int favoriteNum = favoriteRepository.countFavoriteByShop_Id(shop.getId());
             return ShopBySpotRes.ofShopBySpot(shop, image, favoriteNum);
         }).toList();
@@ -81,7 +81,7 @@ public class ShopService {
 
         for (Mood userMood : userMoods) {
             List<ShopByMoodRes> homeShopResList = shopRepository.findShopsByMood(userMood.getId()).stream().map(shop -> {
-                String image = shopImageRepository.findShopImageByShop_Id(shop.getId()).getUrl();
+                String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).getUrl();
                 return ShopByMoodRes.ofShopByMood(shop, image);
             }).toList();
 
