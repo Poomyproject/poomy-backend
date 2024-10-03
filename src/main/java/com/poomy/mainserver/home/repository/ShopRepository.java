@@ -19,4 +19,10 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
 
     @Query(value = "select * from poom_shops where poom_shops.mood_id = :moodId and spot_id= :spotId and id= :shopId", nativeQuery = true)
     Shop getFilteredShops(Long moodId, Long spotId, Long shopId);
+
+    @Query(value = "select * from poom_shops where poom_shops.mood_id = :moodId and id= :shopId", nativeQuery = true)
+    Shop getFilteredShopsByMood(Long moodId, Long shopId);
+
+    @Query(value = "select * from poom_shops where poom_shops.spot_id= :spotId and id= :shopId", nativeQuery = true)
+    Shop getFilteredShopsBySpot(Long spotId, Long shopId);
 }

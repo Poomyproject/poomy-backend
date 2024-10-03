@@ -25,10 +25,21 @@ public class FavoriteController {
         return ResponseEntity.ok(ApiUtils.success(favoriteShopResDtos));
     }
 
-    //TODO :: 찜 필터링 결과 조회
-    @GetMapping("/{moodId}/{spotId}")
+    @GetMapping("/mood/{moodId}/spot/{spotId}")
     public ResponseEntity<ApiResult<List<FavoriteShopResDto>>> getFavoriteShopsBySpotMood(@PathVariable Long moodId, @PathVariable Long spotId) {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteService.getFavoriteShopListBySpotMood(moodId, spotId);
+        return ResponseEntity.ok(ApiUtils.success(favoriteShopResDtos));
+    }
+
+    @GetMapping("/mood/{moodId}")
+    public ResponseEntity<ApiResult<List<FavoriteShopResDto>>> getFavoriteShopsByMood(@PathVariable Long moodId) {
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteService.getFavoriteShopListByMood(moodId);
+        return ResponseEntity.ok(ApiUtils.success(favoriteShopResDtos));
+    }
+
+    @GetMapping("/spot/{spotId}")
+    public ResponseEntity<ApiResult<List<FavoriteShopResDto>>> getFavoriteShopsBySpot(@PathVariable Long spotId) {
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteService.getFavoriteShopListBySpot(spotId);
         return ResponseEntity.ok(ApiUtils.success(favoriteShopResDtos));
     }
 

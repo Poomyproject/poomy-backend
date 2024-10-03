@@ -69,6 +69,28 @@ public class FavoriteService {
         }).toList();
         return favoriteShopResDtos;
     }
+
+    public List<FavoriteShopResDto> getFavoriteShopListBySpot(Long spotId) {
+        User user = userService.getUser();
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
+            Shop filteredShop = shopRepository.getFilteredShopsBySpot(spotId, favorite.getShop().getId());
+            Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
+            String image = shopImageRepository.findShopImageByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
+        }).toList();
+        return favoriteShopResDtos;
+    }
+
+    public List<FavoriteShopResDto> getFavoriteShopListByMood(Long moodId) {
+        User user = userService.getUser();
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
+            Shop filteredShop = shopRepository.getFilteredShopsByMood(moodId, favorite.getShop().getId());
+            Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
+            String image = shopImageRepository.findShopImageByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
+        }).toList();
+        return favoriteShopResDtos;
+    }
 }
 
 
