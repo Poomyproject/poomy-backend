@@ -10,9 +10,9 @@ public record HomeNewsletterRes(Long id, String title, String image, String cont
         return HomeNewsletterRes
                 .builder()
                 .id(newsletter.getId())
-                .title(newsletter.getTitle())
-                .content(newsletter.getExplanation())
-                .image(newsletter.getThumbnail())
+//                .title(newsletter.getTitle())
+//                .content(newsletter.getExplanation())
+//                .image(newsletter.getThumbnail())
                 .build();
     }
 }
