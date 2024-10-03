@@ -26,7 +26,7 @@ public class FavoriteService {
     public List<FavoriteShopResDto> getFavoriteShopList() {
         User user = userService.getUser();
         List<FavoriteShopResDto> favoriteShops = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
-            String image = shopImageRepository.findShopImageByShop_Id(favorite.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favorite.getShop().getId()).getUrl();
             return FavoriteShopResDto.ofFavoriteShop(favorite, image);
         }).toList();
         return favoriteShops;
@@ -64,7 +64,7 @@ public class FavoriteService {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
             Shop filteredShop = shopRepository.getFilteredShops(moodId, spotId, favorite.getShop().getId());
             Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findShopImageByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).getUrl();
             return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
         }).toList();
         return favoriteShopResDtos;
@@ -75,7 +75,7 @@ public class FavoriteService {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
             Shop filteredShop = shopRepository.getFilteredShopsBySpot(spotId, favorite.getShop().getId());
             Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findShopImageByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).getUrl();
             return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
         }).toList();
         return favoriteShopResDtos;
@@ -86,7 +86,7 @@ public class FavoriteService {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
             Shop filteredShop = shopRepository.getFilteredShopsByMood(moodId, favorite.getShop().getId());
             Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findShopImageByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).getUrl();
             return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
         }).toList();
         return favoriteShopResDtos;
