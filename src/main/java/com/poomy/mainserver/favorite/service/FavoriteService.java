@@ -5,6 +5,7 @@ import com.poomy.mainserver.favorite.dto.LikeShopResDto;
 import com.poomy.mainserver.favorite.entity.Favorite;
 import com.poomy.mainserver.favorite.repository.FavoriteRepository;
 import com.poomy.mainserver.home.entity.Shop;
+import com.poomy.mainserver.home.entity.ShopImage;
 import com.poomy.mainserver.home.repository.ShopImageRepository;
 import com.poomy.mainserver.home.repository.ShopRepository;
 import com.poomy.mainserver.user.entity.User;
@@ -26,7 +27,7 @@ public class FavoriteService {
     public List<FavoriteShopResDto> getFavoriteShopList() {
         User user = userService.getUser();
         List<FavoriteShopResDto> favoriteShops = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
-            String image = shopImageRepository.findTop1ByShop_Id(favorite.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favorite.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
             return FavoriteShopResDto.ofFavoriteShop(favorite, image);
         }).toList();
         return favoriteShops;
@@ -38,7 +39,7 @@ public class FavoriteService {
         Favorite checkfavorite = favoriteRepository.getFavoriteShop(user.getId(), shopId);
         if (checkfavorite == null) {
             favoriteRepository.insertUserToFavorite(user.getId(), shopId);
-        }else if(!checkfavorite.getIsFavorite()){
+        } else if (!checkfavorite.getIsFavorite()) {
             favoriteRepository.updateLikeShopById(user.getId(), shopId);
         }
         Favorite favorite = favoriteRepository.getFavoriteShop(user.getId(), shopId);
@@ -50,7 +51,7 @@ public class FavoriteService {
     public LikeShopResDto updateUnlikeShopById(Long shopId) {
         User user = userService.getUser();
         Favorite checkfavorite = favoriteRepository.getFavoriteShop(user.getId(), shopId);
-        if(checkfavorite.getIsFavorite()){
+        if (checkfavorite.getIsFavorite()) {
             favoriteRepository.updateUnlikeShopById(user.getId(), shopId);
         }
         Favorite favorite = favoriteRepository.getFavoriteShop(user.getId(), shopId);
@@ -64,7 +65,7 @@ public class FavoriteService {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
             Shop filteredShop = shopRepository.getFilteredShops(moodId, spotId, favorite.getShop().getId());
             Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
             return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
         }).toList();
         return favoriteShopResDtos;
@@ -75,7 +76,7 @@ public class FavoriteService {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
             Shop filteredShop = shopRepository.getFilteredShopsBySpot(spotId, favorite.getShop().getId());
             Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
             return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
         }).toList();
         return favoriteShopResDtos;
@@ -86,7 +87,7 @@ public class FavoriteService {
         List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
             Shop filteredShop = shopRepository.getFilteredShopsByMood(moodId, favorite.getShop().getId());
             Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
             return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
         }).toList();
         return favoriteShopResDtos;

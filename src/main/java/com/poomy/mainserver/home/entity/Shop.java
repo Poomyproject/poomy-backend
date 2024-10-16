@@ -1,6 +1,7 @@
 package com.poomy.mainserver.home.entity;
 
 import com.poomy.mainserver.detail.dto.res.ShopDetailRes;
+import com.poomy.mainserver.detail.dto.res.ShopImageRes;
 import com.poomy.mainserver.mood.entity.Mood;
 import com.poomy.mainserver.review.entity.Review;
 import com.poomy.mainserver.spot.entity.Spot;
@@ -54,7 +55,7 @@ public class Shop {
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Review> reviews;
 
-    public ShopDetailRes toDto(Boolean favorite, List<ShopImage> shopImageList) {
+    public ShopDetailRes toDto(Boolean favorite, List<ShopImageRes> shopImageList) {
         return ShopDetailRes.builder()
                 .shopId(id)
                 .name(name)
