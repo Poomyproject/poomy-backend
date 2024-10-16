@@ -1,9 +1,9 @@
 package com.poomy.mainserver.home.controller;
 
-import com.poomy.mainserver.home.dto.res.HomeNewsletterRes;
 import com.poomy.mainserver.home.dto.res.HomeShopRes;
 import com.poomy.mainserver.home.dto.res.SpotsRes;
 import com.poomy.mainserver.home.service.ShopService;
+import com.poomy.mainserver.newsletter.dto.NewsLetterResDto;
 import com.poomy.mainserver.newsletter.service.NewsletterService;
 import com.poomy.mainserver.user.service.UserService;
 import com.poomy.mainserver.util.api.ApiResult;
@@ -42,7 +42,7 @@ public class HomeController {
 
     @GetMapping("/newsletter")
     @Operation(summary = "뉴스레터 조회", description = "뉴스레터 랜덤 3개 조회하는 api")
-    public ResponseEntity<ApiResult<List<HomeNewsletterRes>>> getNewsLetters() {
+    public ResponseEntity<ApiResult<List<NewsLetterResDto>>> getNewsLetters() {
         return ResponseEntity.ok(ApiUtils.success(newsletterService.getRandomNewsletters()));
     }
 

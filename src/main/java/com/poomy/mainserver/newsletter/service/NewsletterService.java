@@ -1,6 +1,5 @@
 package com.poomy.mainserver.newsletter.service;
 
-import com.poomy.mainserver.home.dto.res.HomeNewsletterRes;
 import com.poomy.mainserver.newsletter.dto.LikeNewsLetterResDto;
 import com.poomy.mainserver.newsletter.dto.NewsLetterResDto;
 import com.poomy.mainserver.newsletter.dto.NewsletterByIdResDto;
@@ -14,7 +13,6 @@ import com.poomy.mainserver.newsletter.repository.NewsletterRepository;
 import com.poomy.mainserver.newsletter.repository.NewsletterShopRepository;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.service.UserService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +28,11 @@ public class NewsletterService {
     private final LikeNewsletterRepository likeNewsletterRepository;
     private final NewsletterShopRepository newsletterShopRepository;
 
-    public List<HomeNewsletterRes> getRandomNewsletters() {
-        return newsletterRepository.getRandomNewsletters().stream().map(HomeNewsletterRes::of).toList();
+    public List<NewsLetterResDto> getRandomNewsletters() {
+        return newsletterRepository.getRandomNewsletters().stream().map(newsletter -> {
+            NewsletterImage newsletterImage = newsletterImageRepository.findNewsletterImageByNewsletterId(newsletter.getId());
+            return NewsLetterResDto.ofNewsLetterResDto(newsletter, newsletterImage);
+        }).toList();
     }
 
     public List<NewsLetterResDto> getNewNewsletters() {
@@ -62,8 +63,6 @@ public class NewsletterService {
     }
 
 
-
-
     public NewsletterByIdResDto getNewsletterById(Long newsletterId) {
         User user = userService.getUser();
         Newsletter newsletter = newsletterRepository.getNewsletterById(newsletterId);
@@ -82,7 +81,7 @@ public class NewsletterService {
         if (checkLikeNewsletter == null) {
             likeNewsletterRepository.insertUserToLikeNewsletter(user.getId(), newsletterId);
             newsletterRepository.increaseUserFeedbackById(newsletterId);
-        } else if(!checkLikeNewsletter.getIsLike()){
+        } else if (!checkLikeNewsletter.getIsLike()) {
             likeNewsletterRepository.updateLikeUserFeedbackById(user.getId(), newsletterId);
             newsletterRepository.increaseUserFeedbackById(newsletterId);
         }

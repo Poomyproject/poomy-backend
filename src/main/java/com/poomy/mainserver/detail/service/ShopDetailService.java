@@ -1,9 +1,9 @@
 package com.poomy.mainserver.detail.service;
 
 import com.poomy.mainserver.detail.dto.res.ShopDetailRes;
+import com.poomy.mainserver.detail.dto.res.ShopImageRes;
 import com.poomy.mainserver.favorite.repository.FavoriteRepository;
 import com.poomy.mainserver.home.entity.Shop;
-import com.poomy.mainserver.home.entity.ShopImage;
 import com.poomy.mainserver.home.repository.ShopImageRepository;
 import com.poomy.mainserver.home.repository.ShopRepository;
 import com.poomy.mainserver.user.entity.User;
@@ -30,7 +30,12 @@ public class ShopDetailService {
 
         Boolean isFavorite = favoriteRepository.existsByUserAndShop(user, shop);
 
-        List<ShopImage> shopImageList = shopImageRepository.findShopImagesByShop_Id(shopId);
+        List<ShopImageRes> shopImageList = shopImageRepository.findShopImagesByShop_Id(shopId)
+                .filter(list -> !list.isEmpty())
+                .map(list -> list.stream()
+                        .map(ShopImageRes::ofShopImage)
+                        .toList())
+                .orElseGet(() -> List.of(new ShopImageRes(0L, "https://")));
 
         return shop.toDto(isFavorite, shopImageList);
     }

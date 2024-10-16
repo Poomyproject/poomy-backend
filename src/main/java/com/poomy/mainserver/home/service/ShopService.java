@@ -5,6 +5,7 @@ import com.poomy.mainserver.home.dto.res.HomeShopRes;
 import com.poomy.mainserver.home.dto.res.ShopByMoodRes;
 import com.poomy.mainserver.home.dto.res.ShopBySpotRes;
 import com.poomy.mainserver.home.dto.res.SpotsRes;
+import com.poomy.mainserver.home.entity.ShopImage;
 import com.poomy.mainserver.home.repository.ShopImageRepository;
 import com.poomy.mainserver.home.repository.ShopRepository;
 import com.poomy.mainserver.mood.entity.Mood;
@@ -49,7 +50,7 @@ public class ShopService {
         }
 
         List<ShopBySpotRes> shops = shopRepository.findShopsBySpot(randomUserSpot.getSpot().getId()).stream().map(shop -> {
-            String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).getUrl();
+            String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElse("http://default");
             int favoriteNum = favoriteRepository.countFavoriteByShop_Id(shop.getId());
             return ShopBySpotRes.ofShopBySpot(shop, image, favoriteNum);
         }).toList();
@@ -81,7 +82,7 @@ public class ShopService {
 
         for (Mood userMood : userMoods) {
             List<ShopByMoodRes> homeShopResList = shopRepository.findShopsByMood(userMood.getId()).stream().map(shop -> {
-                String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).getUrl();
+                String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElse("http://default");
                 return ShopByMoodRes.ofShopByMood(shop, image);
             }).toList();
 
