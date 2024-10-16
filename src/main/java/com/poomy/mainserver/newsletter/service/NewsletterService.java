@@ -30,8 +30,11 @@ public class NewsletterService {
     private final LikeNewsletterRepository likeNewsletterRepository;
     private final NewsletterShopRepository newsletterShopRepository;
 
-    public List<HomeNewsletterRes> getRandomNewsletters() {
-        return newsletterRepository.getRandomNewsletters().stream().map(HomeNewsletterRes::of).toList();
+    public List<NewsLetterResDto> getRandomNewsletters() {
+        return newsletterRepository.getRandomNewsletters().stream().map(newsletter -> {
+            NewsletterImage newsletterImage = newsletterImageRepository.findNewsletterImageByNewsletterId(newsletter.getId());
+            return NewsLetterResDto.ofNewsLetterResDto(newsletter,newsletterImage);
+        }).toList();
     }
 
     public List<NewsLetterResDto> getNewNewsletters() {
