@@ -1,5 +1,6 @@
 package com.poomy.mainserver.newsletter.service;
 
+import com.poomy.mainserver.newsletter.dto.HomeNewsLetterResDto;
 import com.poomy.mainserver.newsletter.dto.LikeNewsLetterResDto;
 import com.poomy.mainserver.newsletter.dto.NewsLetterResDto;
 import com.poomy.mainserver.newsletter.dto.NewsletterByIdResDto;
@@ -28,10 +29,10 @@ public class NewsletterService {
     private final LikeNewsletterRepository likeNewsletterRepository;
     private final NewsletterShopRepository newsletterShopRepository;
 
-    public List<NewsLetterResDto> getRandomNewsletters() {
+    public List<HomeNewsLetterResDto> getRandomNewsletters() {
         return newsletterRepository.getRandomNewsletters().stream().map(newsletter -> {
             NewsletterImage newsletterImage = newsletterImageRepository.findNewsletterImageByNewsletterId(newsletter.getId());
-            return NewsLetterResDto.ofNewsLetterResDto(newsletter, newsletterImage);
+            return HomeNewsLetterResDto.ofHomeNewsLetterResDto(newsletter, newsletterImage);
         }).toList();
     }
 
