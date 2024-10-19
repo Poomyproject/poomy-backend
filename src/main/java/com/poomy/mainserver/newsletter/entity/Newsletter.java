@@ -41,10 +41,10 @@ public class Newsletter {
     @Column(name = "third_keyword")
     private String thirdKeyword;
 
-    @Column(name = "text_top")
+    @Column(name = "text_top", columnDefinition = "TEXT")
     private String textTop;
 
-    @Column(name = "text_bottom")
+    @Column(name = "text_bottom", columnDefinition = "TEXT")
     private String textBottom;
 
     @Column(name = "user_feedback")
