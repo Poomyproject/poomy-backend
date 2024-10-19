@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.w3c.dom.Text;
 
 @Entity
 @Table(name = "news_letter_shops")
@@ -22,6 +23,6 @@ public class NewsletterShop {
     @Column(name = "shop_title")
     private String ShopTitle;
 
-    @Column(name = "shop_text")
+    @Column(name = "shop_text", columnDefinition = "TEXT")
     private String ShopText;
 }
