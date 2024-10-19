@@ -36,4 +36,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     @Query(value = "update user_favorite_poom_shop set is_favorite = false where user_id= :userId and shop_id= :shopId", nativeQuery = true)
     @Modifying(clearAutomatically = true)
     void updateUnlikeShopById(Integer userId, Long shopId);
+
+    @Query(value = "select * from user_favorite_poom_shop where shop_id = :shopId and user_id = :userId", nativeQuery = true)
+    Favorite getUserLike(Long shopId, Integer userId);
 }

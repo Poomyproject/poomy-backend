@@ -25,4 +25,15 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
 
     @Query(value = "select * from poom_shops where poom_shops.spot_id= :spotId and id= :shopId", nativeQuery = true)
     Shop getFilteredShopsBySpot(Long spotId, Long shopId);
+
+    @Query(value = "select * from poom_shops where name like :word% ORDER BY name", nativeQuery = true)
+    List<Shop> findFirstShopsByName(@Param("word") String word);
+
+    @Query(value = "select * from poom_shops where name like %:word ORDER BY name", nativeQuery = true)
+    List<Shop> findSecondShopsByName(@Param("word") String word);
+
+    @Query(value = "select * from poom_shops where id = :shopId", nativeQuery = true)
+    Shop findShopById(@Param("shopId") Long shopId);
+
+
 }
