@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 
-public record NewsletterByIdResDto(Long id, String headline, String mainPhoto,
+public record NewsletterByIdResDto(Long id, String headline, String mainPhoto, String subtopic,String keyword1, String keyword2, String keyword3,String textTop,
                                    Long firstShopId, String firstShopName, String firstShopImage1, String firstShopImage2, String firstShopTitle, String firstShopText, Double firstShopLatitude, Double firstShopLongitude,
                                    Long secondShopId, String secondShopName, String secondShopImage1, String secondShopImage2, String secondShopTitle, String secondShopText, Double secondShopLatitude, Double secondShopLongitude,
                                    Long thirdShopId, String thirdShopName, String thirdShopImage1, String thirdShopImage2, String thirdShopTitle, String thirdShopText, Double thirdShopLatitude, Double thirdShopLongitude,
@@ -17,6 +17,11 @@ public record NewsletterByIdResDto(Long id, String headline, String mainPhoto,
                 .id(newsletter.getId())
                 .headline(newsletter.getHeadline())
                 .mainPhoto(newsletterImage.getMainPhoto())
+                .subtopic(newsletter.getSubtopic())
+                .keyword1(newsletter.getFirstKeyword())
+                .keyword2(newsletter.getSecondKeyword())
+                .keyword3(newsletter.getThirdKeyword())
+                .textTop(newsletter.getTextTop())
                 //
                 .firstShopId(newsletterShop1.getShop().getId())
                 .firstShopName(newsletterShop1.getShop().getName())
