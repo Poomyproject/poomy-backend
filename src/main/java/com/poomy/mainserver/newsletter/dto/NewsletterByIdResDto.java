@@ -8,9 +8,9 @@ import lombok.Builder;
 @Builder
 
 public record NewsletterByIdResDto(Long id, String headline, String mainPhoto, String subtopic,String keyword1, String keyword2, String keyword3,String textTop,
-                                   Long firstShopId, String firstShopName, String firstShopImage1, String firstShopImage2, String firstShopTitle, String firstShopText, Double firstShopLatitude, Double firstShopLongitude,
-                                   Long secondShopId, String secondShopName, String secondShopImage1, String secondShopImage2, String secondShopTitle, String secondShopText, Double secondShopLatitude, Double secondShopLongitude,
-                                   Long thirdShopId, String thirdShopName, String thirdShopImage1, String thirdShopImage2, String thirdShopTitle, String thirdShopText, Double thirdShopLatitude, Double thirdShopLongitude,
+                                   Long firstShopId, String firstShopName, String firstShopImage1, String firstShopImage2, String firstShopTitle, String firstShopText, String firstShopLocation,
+                                   Long secondShopId, String secondShopName, String secondShopImage1, String secondShopImage2, String secondShopTitle, String secondShopText, String secondShopLocation,
+                                   Long thirdShopId, String thirdShopName, String thirdShopImage1, String thirdShopImage2, String thirdShopTitle, String thirdShopText, String thirdShopLocation,
                                    String textBottom, Boolean userFeedback) {
     public static NewsletterByIdResDto ofNewsletterById(Newsletter newsletter, NewsletterImage newsletterImage, NewsletterShop newsletterShop1, NewsletterShop newsletterShop2, NewsletterShop newsletterShop3, Boolean userFeedback){
         return NewsletterByIdResDto.builder()
@@ -29,8 +29,7 @@ public record NewsletterByIdResDto(Long id, String headline, String mainPhoto, S
                 .firstShopImage2(newsletterImage.getFirstShopImage2())
                 .firstShopTitle(newsletterShop1.getShopTitle())
                 .firstShopText(newsletterShop1.getShopText())
-                .firstShopLatitude(newsletterShop1.getShop().getLatitude())
-                .firstShopLongitude(newsletterShop1.getShop().getLongitude())
+                .firstShopLocation(newsletterShop1.getShop().getLocation())
                 //
                 .secondShopId(newsletterShop2.getShop().getId())
                 .secondShopName(newsletterShop2.getShop().getName())
@@ -38,8 +37,7 @@ public record NewsletterByIdResDto(Long id, String headline, String mainPhoto, S
                 .secondShopImage2(newsletterImage.getSecondShopImage2())
                 .secondShopTitle(newsletterShop2.getShopTitle())
                 .secondShopText(newsletterShop2.getShopText())
-                .secondShopLatitude(newsletterShop2.getShop().getLatitude())
-                .secondShopLongitude(newsletterShop2.getShop().getLongitude())
+                .secondShopLocation(newsletterShop2.getShop().getLocation())
                 //
                 .thirdShopId(newsletterShop3.getShop().getId())
                 .thirdShopName(newsletterShop3.getShop().getName())
@@ -47,8 +45,7 @@ public record NewsletterByIdResDto(Long id, String headline, String mainPhoto, S
                 .thirdShopImage2(newsletterImage.getThirdShopImage2())
                 .thirdShopTitle(newsletterShop3.getShopTitle())
                 .thirdShopText(newsletterShop3.getShopText())
-                .thirdShopLatitude(newsletterShop3.getShop().getLatitude())
-                .thirdShopLongitude(newsletterShop3.getShop().getLongitude())
+                .thirdShopLocation(newsletterShop3.getShop().getLocation())
                 //
                 .textBottom(newsletter.getTextBottom())
                 .userFeedback(userFeedback)
