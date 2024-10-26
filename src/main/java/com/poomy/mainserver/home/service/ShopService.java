@@ -51,7 +51,7 @@ public class ShopService {
 
         List<ShopBySpotRes> shops = shopRepository.findShopsBySpot(randomUserSpot.getSpot().getId()).stream().map(shop -> {
             String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElse("http://default");
-            int favoriteNum = favoriteRepository.countFavoriteByShop_Id(shop.getId());
+            int favoriteNum = favoriteRepository.countFavoriteByShop_IdAndIsFavorite(shop.getId(), true);
             return ShopBySpotRes.ofShopBySpot(shop, image, favoriteNum);
         }).toList();
 
