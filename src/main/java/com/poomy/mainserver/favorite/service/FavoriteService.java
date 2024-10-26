@@ -13,7 +13,9 @@ import com.poomy.mainserver.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -62,34 +64,32 @@ public class FavoriteService {
 
     public List<FavoriteShopResDto> getFavoriteShopListBySpotMood(Long moodId, Long spotId) {
         User user = userService.getUser();
-        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
-            Shop filteredShop = shopRepository.getFilteredShops(moodId, spotId, favorite.getShop().getId());
-            Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
-            return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
-        }).toList();
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream()
+                .filter(favorite-> Objects.equals(favorite.getShop().getSpot().getId(), spotId) && Objects.equals(favorite.getShop().getMood().getId(), moodId))
+                .map(favorite -> {
+                    String image = shopImageRepository.findTop1ByShop_Id(favorite.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
+                    return FavoriteShopResDto.ofFavoriteShop(favorite, image);
+                }).toList();
         return favoriteShopResDtos;
     }
 
     public List<FavoriteShopResDto> getFavoriteShopListBySpot(Long spotId) {
         User user = userService.getUser();
-        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
-            Shop filteredShop = shopRepository.getFilteredShopsBySpot(spotId, favorite.getShop().getId());
-            Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
-            return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream()
+                .filter(favorite-> Objects.equals(favorite.getShop().getSpot().getId(), spotId)).map(favorite -> {
+            String image = shopImageRepository.findTop1ByShop_Id(favorite.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
+            return FavoriteShopResDto.ofFavoriteShop(favorite, image);
         }).toList();
         return favoriteShopResDtos;
     }
 
     public List<FavoriteShopResDto> getFavoriteShopListByMood(Long moodId) {
         User user = userService.getUser();
-        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream().map(favorite -> {
-            Shop filteredShop = shopRepository.getFilteredShopsByMood(moodId, favorite.getShop().getId());
-            Favorite favoriteShop = favoriteRepository.getFavoriteShop(user.getId(), filteredShop.getId());
-            String image = shopImageRepository.findTop1ByShop_Id(favoriteShop.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
-            return FavoriteShopResDto.ofFavoriteShop(favoriteShop, image);
-        }).toList();
+        List<FavoriteShopResDto> favoriteShopResDtos = favoriteRepository.getAllFavoriteShop(user.getId()).stream()
+                .filter(favorite-> Objects.equals(favorite.getShop().getMood().getId(), moodId)).map(favorite -> {
+                    String image = shopImageRepository.findTop1ByShop_Id(favorite.getShop().getId()).map(ShopImage::getUrl).orElse("http://default");
+                    return FavoriteShopResDto.ofFavoriteShop(favorite, image);
+                }).toList();
         return favoriteShopResDtos;
     }
 }
