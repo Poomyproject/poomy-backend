@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
-    int countFavoriteByShop_Id(Long shopId);
+    int countFavoriteByShop_IdAndIsFavorite(Long shopId, Boolean isFavorite);
 
     Boolean existsByUserAndShop(User user, Shop shop);
 
