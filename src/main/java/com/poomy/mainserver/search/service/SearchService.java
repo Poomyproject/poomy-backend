@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,8 +34,13 @@ public class SearchService {
     private final UserService userService;
 
     public List<SearchShopResDto> getShopListByName(String word) {
+        if (word == null || word.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         User user = userService.getUser();
-        List<SearchShopResDto> searchShopResDtos = shopRepository.findFirstShopsByName(word).stream()
+        List<SearchShopResDto> searchShopResDtos = new ArrayList<>();
+        searchShopResDtos = shopRepository.findFirstShopsByName(word).stream()
                 .map(shop -> {
                     String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElseThrow();
                     Favorite favorite = favoriteRepository.getUserLike(shop.getId(), user.getId());
@@ -44,7 +50,11 @@ public class SearchService {
                     }
                     return SearchShopResDto.ofSearchShopByName(shop, image, isFavorite);
                 }).toList();
-        return searchShopResDtos;
+        if (searchShopResDtos.isEmpty()) {
+            return Collections.emptyList();
+        } else{
+            return searchShopResDtos;
+        }
     }
 
     public SearchCountResDto updateSearchCountById(Long shopId) {
