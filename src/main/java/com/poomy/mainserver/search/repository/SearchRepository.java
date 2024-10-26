@@ -24,6 +24,5 @@ public interface SearchRepository extends JpaRepository<Search, Long> {
     @Query(value = "select * from search where shop_id= :shopId", nativeQuery = true)
     Search getSearchCountByShopId(@Param("shopId") Long shopId);
 
-    @Query(value = "select * from search order by count DESC limit 5", nativeQuery = true)
-    List<Search> getTopFiveShops();
+    List<Search> findTop5ByOrderByCountDesc();
 }
