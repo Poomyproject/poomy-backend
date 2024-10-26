@@ -13,10 +13,16 @@ import com.poomy.mainserver.search.entity.Search;
 import com.poomy.mainserver.search.repository.SearchRepository;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.service.UserService;
+import com.poomy.mainserver.util.exception.common.BError;
+import com.poomy.mainserver.util.exception.common.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Service
 @RequiredArgsConstructor
 public class SearchService {
@@ -56,11 +62,37 @@ public class SearchService {
     }
 
     public List<TopFiveShopResDto> getTopFiveShop() {
-        List<TopFiveShopResDto> topFiveShopResDtos = searchRepository.getTopFiveShops().stream().map(search -> {
-            Shop shop = search.getShop();
-            return TopFiveShopResDto.ofTopFiveShop(shop);
-        }).toList();
+        List<Search> searchList = searchRepository.findTop5ByOrderByCountDesc();
+        if (searchList == null) {
+            searchList = List.of();
+        }
 
+        int searchCount = searchList.size();
+
+        if (searchCount < 5) {
+            int remainingCount = 5 - searchCount;
+            List<Shop> shopList = shopRepository.findRandomRemainingCount(remainingCount);
+            List<TopFiveShopResDto> shops = shopList.stream()
+                    .map(TopFiveShopResDto::ofTopFiveShop).toList();
+
+            List<TopFiveShopResDto> searchs = searchList.stream()
+                    .map(search -> {
+                        Shop shop = search.getShop();
+                        return TopFiveShopResDto.ofTopFiveShop(shop);
+                    }).toList();
+
+            List<TopFiveShopResDto> results = Stream.concat(searchs.stream(), shops.stream()).toList();
+
+            return results;
+        }
+
+
+        List<TopFiveShopResDto> topFiveShopResDtos = searchList.stream()
+                .map(search -> {
+                    Shop shop = search.getShop();
+                    return TopFiveShopResDto.ofTopFiveShop(shop);
+                })
+                .toList();
         return topFiveShopResDtos;
     }
 }

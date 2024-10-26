@@ -35,5 +35,7 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
     @Query(value = "select * from poom_shops where id = :shopId", nativeQuery = true)
     Shop findShopById(@Param("shopId") Long shopId);
 
+    @Query(value = "SELECT * FROM poom_shops ORDER BY RAND() LIMIT :remainingCount", nativeQuery = true)
+    List<Shop> findRandomRemainingCount(int remainingCount);
 
 }
