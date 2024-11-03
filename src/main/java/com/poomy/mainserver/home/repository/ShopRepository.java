@@ -29,7 +29,7 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
     @Query(value = "select * from poom_shops where name like :word% ORDER BY name", nativeQuery = true)
     List<Shop> findFirstShopsByName(@Param("word") String word);
 
-    @Query(value = "select * from poom_shops where name like %:word ORDER BY name", nativeQuery = true)
+    @Query(value = "select * from poom_shops where name like CONCAT('_','%', :word, '%') ORDER BY name", nativeQuery = true)
     List<Shop> findSecondShopsByName(@Param("word") String word);
 
     @Query(value = "select * from poom_shops where id = :shopId", nativeQuery = true)

@@ -40,7 +40,7 @@ public class SearchService {
 
         User user = userService.getUser();
         List<SearchShopResDto> searchShopResDtos = new ArrayList<>();
-        searchShopResDtos = shopRepository.findFirstShopsByName(word).stream()
+        List<SearchShopResDto> searchShopResDtos1 = shopRepository.findFirstShopsByName(word).stream()
                 .map(shop -> {
                     String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElseThrow();
                     Favorite favorite = favoriteRepository.getUserLike(shop.getId(), user.getId());
@@ -50,6 +50,17 @@ public class SearchService {
                     }
                     return SearchShopResDto.ofSearchShopByName(shop, image, isFavorite);
                 }).toList();
+        List<SearchShopResDto> searchShopResDtos2 = shopRepository.findSecondShopsByName(word).stream()
+                .map(shop -> {
+                    String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElseThrow();
+                    Favorite favorite = favoriteRepository.getUserLike(shop.getId(), user.getId());
+                    Boolean isFavorite = false;
+                    if (favorite !=null) {
+                        isFavorite=favorite.getIsFavorite();
+                    }
+                    return SearchShopResDto.ofSearchShopByName(shop, image, isFavorite);
+                }).toList();
+        searchShopResDtos = Stream.concat(searchShopResDtos1.stream(), searchShopResDtos2.stream()).toList();
         if (searchShopResDtos.isEmpty()) {
             return Collections.emptyList();
         } else{
