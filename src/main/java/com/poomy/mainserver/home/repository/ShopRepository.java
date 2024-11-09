@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ShopRepository extends JpaRepository<Shop,Long> {
@@ -27,4 +28,12 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
     @Query(value = "SELECT * FROM poom_shops ORDER BY RAND() LIMIT :remainingCount", nativeQuery = true)
     List<Shop> findRandomRemainingCount(int remainingCount);
 
+    @Query(value = "SELECT * FROM poom_shops WHERE spot_id = :spotId", nativeQuery = true)
+    List<Shop> findBySpotId(Long spotId);
+
+    @Query(value = "SELECT * FROM poom_shops WHERE mood_id = :moodId", nativeQuery = true)
+    List<Shop> findByMoodId(Long moodId);
+
+    @Query(value = "SELECT * FROM poom_shops WHERE mood_id = :moodId and spot_id = :spotId", nativeQuery = true)
+    List<Shop> findByMoodIdAndSpotId(Long moodId, Long spotId);
 }
