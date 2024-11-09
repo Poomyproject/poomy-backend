@@ -1,5 +1,6 @@
 package com.poomy.mainserver.search.controller;
 
+import com.poomy.mainserver.search.dto.AutoCompleteResDto;
 import com.poomy.mainserver.search.dto.SearchCountResDto;
 import com.poomy.mainserver.search.dto.SearchShopResDto;
 import com.poomy.mainserver.search.dto.TopFiveShopResDto;
@@ -36,5 +37,11 @@ public class SearchController {
     public ResponseEntity<ApiResult<SearchCountResDto>> increaseSearchCount(@PathVariable Long shopId) {
         SearchCountResDto searchCountResDto = searchService.updateSearchCountById(shopId);
         return ResponseEntity.ok(ApiUtils.success(searchCountResDto));
+    }
+
+    @GetMapping("/autoComplete")
+    public ResponseEntity<ApiResult<List<AutoCompleteResDto>>> getAutoCompleteShop(@RequestParam String word) {
+        List<AutoCompleteResDto> autoCompleteResDtos = searchService.getAutoCompleteShopListByName(word);
+        return ResponseEntity.ok(ApiUtils.success(autoCompleteResDtos));
     }
 }
