@@ -24,12 +24,10 @@ public class UserSpot extends BaseTime {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "spot_id")
-    @JsonBackReference
     private Spot spot;
 
 }

@@ -1,6 +1,9 @@
 package com.poomy.mainserver.home.entity;
 
+import com.poomy.mainserver.detail.dto.res.ShopDetailRes;
+import com.poomy.mainserver.detail.dto.res.ShopImageRes;
 import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.review.entity.Review;
 import com.poomy.mainserver.spot.entity.Spot;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "poom_shops")
@@ -47,4 +51,24 @@ public class Shop {
     private Double latitude;
 
     private Double longitude;
+
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    private List<Review> reviews;
+
+    public ShopDetailRes toDto(Boolean favorite, List<ShopImageRes> shopImageList) {
+        return ShopDetailRes.builder()
+                .shopId(id)
+                .name(name)
+                .location(location)
+                .phoneNumber(phoneNumber)
+                .nearbyStation(nearbyStation)
+                .favorite(favorite)
+                .spot(spot.getName())
+                .mood(mood.getName())
+                .latitude(latitude)
+                .longitude(longitude)
+                .shopImageList(shopImageList)
+                .openingHours("test 영업시간 ~~")
+                .build();
+    }
 }

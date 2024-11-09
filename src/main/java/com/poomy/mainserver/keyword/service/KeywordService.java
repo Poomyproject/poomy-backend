@@ -25,7 +25,7 @@ public class KeywordService {
     private final ShopImageRepository shopImageRepository;
     private final UserService userService;
 
-    //페이징처리 필요
+
     public List<ShopResDto> getShopList() {
         User user = userService.getUser();
 

@@ -1,6 +1,7 @@
 package com.poomy.mainserver.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.poomy.mainserver.review.entity.Review;
 import com.poomy.mainserver.user.type.UserRoleType;
 import com.poomy.mainserver.util.vo.BaseTime;
 import jakarta.persistence.*;
@@ -34,13 +35,14 @@ public class User extends BaseTime {
     private UserRoleType role;
 
     @Setter
-    @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserMood> userMoods;
 
     @Setter
-    @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserSpot> userSpots;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
 }

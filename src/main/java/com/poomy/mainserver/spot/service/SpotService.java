@@ -25,7 +25,7 @@ public class SpotService {
         return spotRepository.findAll();
     }
 
-    public List<Spot> getSpots(List<Integer> spotIds){
+    public List<Spot> getSpots(List<Long> spotIds){
         return spotIds.stream()
                 .map(spotId -> spotRepository.findById(spotId)
                         .orElseThrow(() -> new CommonException(BError.NOT_EXIST, spotId + " of spotId")))

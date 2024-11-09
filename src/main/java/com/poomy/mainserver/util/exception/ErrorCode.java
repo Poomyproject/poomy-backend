@@ -17,6 +17,7 @@ public enum ErrorCode {
 	ACCESS_DENIED(403, "C007", "Access Denied"),
 	METHOD_NOT_ALLOWED(405, "C008", "Method Not Allowed"),
 	INTERNAL_SERVER_ERROR(500, "C009", "Server Error"),
+	FILE_SIZE_EXCEEDED(400, "C010", "File Size Exceeded"),
 
 	// Business
 	BUSINESS_ERROR(400, "B000", "Business Error");

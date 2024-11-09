@@ -24,4 +24,7 @@ public class Favorite {
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
+    @Column(name = "is_favorite")
+    private Boolean isFavorite;
 }

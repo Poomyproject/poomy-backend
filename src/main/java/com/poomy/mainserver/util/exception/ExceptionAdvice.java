@@ -7,6 +7,7 @@ import io.jsonwebtoken.JwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -112,6 +113,16 @@ public class ExceptionAdvice {
 		log.error("handleJwtException {}", e.getMessage());
 		final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiUtils.error(response));
+	}
+
+	/*
+	* 사진 등록할 시 파일 사이즈
+	* */
+	@ExceptionHandler(FileSizeLimitExceededException.class)
+	protected ResponseEntity<ApiResult> handleFileSizeLimitExceededException(FileSizeLimitExceededException e) {
+		log.error("FileSizeLimitExceededException {}", e.getMessage());
+		final ErrorResponse response = ErrorResponse.of(ErrorCode.FILE_SIZE_EXCEEDED);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiUtils.error(response));
 	}
 
 	/**

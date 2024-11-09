@@ -15,9 +15,11 @@ public class ShopImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     private String url;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
 }

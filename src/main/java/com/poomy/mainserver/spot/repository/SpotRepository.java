@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface SpotRepository extends JpaRepository<Spot, Integer> {
+public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     @Query(value = "select * from spots ORDER BY RAND() LIMIT 6", nativeQuery = true)
     List<Spot> findSpots();

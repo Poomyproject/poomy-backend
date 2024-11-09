@@ -24,12 +24,10 @@ public class UserMood extends BaseTime {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "mood_id")
-    @JsonBackReference
     private Mood mood;
 
 }
