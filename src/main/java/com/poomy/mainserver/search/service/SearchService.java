@@ -6,6 +6,7 @@ import com.poomy.mainserver.home.entity.Shop;
 import com.poomy.mainserver.home.entity.ShopImage;
 import com.poomy.mainserver.home.repository.ShopImageRepository;
 import com.poomy.mainserver.home.repository.ShopRepository;
+import com.poomy.mainserver.search.dto.AutoCompleteResDto;
 import com.poomy.mainserver.search.dto.SearchCountResDto;
 import com.poomy.mainserver.search.dto.SearchShopResDto;
 import com.poomy.mainserver.search.dto.TopFiveShopResDto;
@@ -116,4 +117,26 @@ public class SearchService {
                 .toList();
         return topFiveShopResDtos;
     }
+
+    public List<AutoCompleteResDto> getAutoCompleteShopListByName(String word) {
+        if (word == null || word.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<AutoCompleteResDto> autoCompleteResDtos = new ArrayList<>();
+
+        List<AutoCompleteResDto> autoCompleteResDtos1 = shopRepository.findFirstShopsByName(word).stream()
+                .map(AutoCompleteResDto::of).toList();
+
+        List<AutoCompleteResDto> autoCompleteResDtos2 = shopRepository.findSecondShopsByName(word).stream()
+                .map(AutoCompleteResDto::of).toList();
+
+        autoCompleteResDtos = Stream.concat(autoCompleteResDtos1.stream(), autoCompleteResDtos2.stream()).toList();
+        if (autoCompleteResDtos.isEmpty()) {
+            return Collections.emptyList();
+        } else{
+            return autoCompleteResDtos;
+        }
+    }
+
 }
