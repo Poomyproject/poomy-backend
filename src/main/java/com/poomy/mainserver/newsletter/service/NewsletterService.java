@@ -92,7 +92,7 @@ public class NewsletterService {
         }
 
         LikeNewsletter likeNewsletter = likeNewsletterRepository.getLikeNewsletter(user.getId(), newsletterId);
-        LikeNewsLetterResDto likeNewsLetterResDto = LikeNewsLetterResDto.of(likeNewsletter);
+        LikeNewsLetterResDto likeNewsLetterResDto = LikeNewsLetterResDto.of(likeNewsletter, likeNewsletter.getNewsletter());
         return likeNewsLetterResDto;
     }
 
@@ -104,7 +104,7 @@ public class NewsletterService {
             newsletterRepository.decreaseUserFeedbackById(newsletterId);
         }
         LikeNewsletter likeNewsletter = likeNewsletterRepository.getLikeNewsletter(user.getId(), newsletterId);
-        LikeNewsLetterResDto likeNewsLetterResDto = LikeNewsLetterResDto.of(likeNewsletter);
+        LikeNewsLetterResDto likeNewsLetterResDto = LikeNewsLetterResDto.of(likeNewsletter, likeNewsletter.getNewsletter());
         return likeNewsLetterResDto;
     }
 
