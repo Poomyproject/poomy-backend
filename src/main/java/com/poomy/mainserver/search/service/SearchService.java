@@ -43,7 +43,7 @@ public class SearchService {
         List<SearchShopResDto> searchShopResDtos = new ArrayList<>();
         List<SearchShopResDto> searchShopResDtos1 = shopRepository.findFirstShopsByName(word).stream()
                 .map(shop -> {
-                    String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElseThrow();
+                    String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElse("http://default");
                     Favorite favorite = favoriteRepository.getUserLike(shop.getId(), user.getId());
                     Boolean isFavorite = false;
                     if (favorite !=null) {
@@ -53,7 +53,7 @@ public class SearchService {
                 }).toList();
         List<SearchShopResDto> searchShopResDtos2 = shopRepository.findSecondShopsByName(word).stream()
                 .map(shop -> {
-                    String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElseThrow();
+                    String image = shopImageRepository.findTop1ByShop_Id(shop.getId()).map(ShopImage::getUrl).orElse("http://default");
                     Favorite favorite = favoriteRepository.getUserLike(shop.getId(), user.getId());
                     Boolean isFavorite = false;
                     if (favorite !=null) {
