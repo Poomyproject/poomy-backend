@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,9 +86,21 @@ public class UserService {
     public List<UserMood> registerUserMood(List<Mood> moods) {
         User user = getUser();
         userMoodRepository.deleteAllByUser(user);
+
+
+
         List<UserMood> userMoods = moods.stream()
                 .map(mood -> userMapper.toUserMood(user, mood))
                 .toList();
+
+        List<UserMood> savedUserMoods = new ArrayList<>();
+        for (UserMood userMood : userMoods) {
+            boolean exists = userMoodRepository.existsByUserIdAndMoodId(userMood.getUser().getId(), userMood.getMood().getId());
+            if (!exists) {
+                savedUserMoods.add(userMoodRepository.save(userMood));
+            }
+        }
+
         userMoods = userMoodRepository.saveAll(userMoods);
         user.setUserMoods(userMoods);
         return userMoods;
