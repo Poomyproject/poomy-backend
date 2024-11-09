@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserSpotRepository extends JpaRepository<UserSpot, Long> {
     List<UserSpot> findUserSpotsByUser(User user);
     void deleteAllByUser(User user);
+
+    boolean existsByUserIdAndSpotId(Integer id, Long id1);
 }

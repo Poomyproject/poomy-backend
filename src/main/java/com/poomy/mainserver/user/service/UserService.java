@@ -112,6 +112,15 @@ public class UserService {
         List<UserSpot> userSpots = spots.stream()
                 .map(spot -> userMapper.toUserSpot(user, spot))
                 .toList();
+
+        List<UserSpot> savedUserSpots = new ArrayList<>();
+        for (UserSpot userSpot : userSpots) {
+            boolean exists = userSpotRepository.existsByUserIdAndSpotId(userSpot.getUser().getId(), userSpot.getSpot().getId());
+            if (!exists) {
+                savedUserSpots.add(userSpotRepository.save(userSpot));
+            }
+        }
+
         userSpots = userSpotRepository.saveAll(userSpots);
         user.setUserSpots(userSpots);
         return userSpots;
