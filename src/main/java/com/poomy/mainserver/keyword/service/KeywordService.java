@@ -25,6 +25,7 @@ public class KeywordService {
     private final ShopImageRepository shopImageRepository;
     private final UserService userService;
 
+
     public List<ShopResDto> getShopList() {
         User user = userService.getUser();
 

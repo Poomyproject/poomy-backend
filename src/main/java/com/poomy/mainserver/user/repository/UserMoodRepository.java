@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserMoodRepository extends JpaRepository<UserMood, Long> {
     List<UserMood> findUserMoodsByUser(User user);
     void deleteAllByUser(User user);
+
+    boolean existsByUserIdAndMoodId(Integer id, Long id1);
 }
