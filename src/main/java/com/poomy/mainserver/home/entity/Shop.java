@@ -31,11 +31,8 @@ public class Shop {
     @Column(name = "nearby_station")
     private String nearbyStation;
 
-    @Column(name = "start_time")
-    private LocalDateTime startTime;
-
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
+    @Column(name = "opening_hours")
+    private String openingHours;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -68,7 +65,7 @@ public class Shop {
                 .latitude(latitude)
                 .longitude(longitude)
                 .shopImageList(shopImageList)
-                .openingHours("test 영업시간 ~~")
+                .openingHours(openingHours)
                 .build();
     }
 }
