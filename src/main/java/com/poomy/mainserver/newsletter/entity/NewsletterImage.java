@@ -28,15 +28,33 @@ public class NewsletterImage {
     @Column(name = "first_shop_image2")
     private String firstShopImage2;
 
+    @Column(name = "first_shop_image3")
+    private String firstShopImage3;
+
+    @Column(name = "first_shop_image4")
+    private String firstShopImage4;
+
     @Column(name = "second_shop_image1")
     private String secondShopImage1;
 
     @Column(name = "second_shop_image2")
     private String secondShopImage2;
 
+    @Column(name = "second_shop_image3")
+    private String secondShopImage3;
+
+    @Column(name = "second_shop_image4")
+    private String secondShopImage4;
+
     @Column(name = "third_shop_image1")
     private String thirdShopImage1;
 
     @Column(name = "third_shop_image2")
     private String thirdShopImage2;
+
+    @Column(name = "third_shop_image3")
+    private String thirdShopImage3;
+
+    @Column(name = "third_shop_image4")
+    private String thirdShopImage4;
 }

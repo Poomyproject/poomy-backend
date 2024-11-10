@@ -71,7 +71,11 @@ public class NewsletterService {
         NewsletterShop newsletterShop1 = newsletterShopRepository.getNewsletterShopById(newsletter.getShop1().getId());
         NewsletterShop newsletterShop2 = newsletterShopRepository.getNewsletterShopById(newsletter.getShop2().getId());
         NewsletterShop newsletterShop3 = newsletterShopRepository.getNewsletterShopById(newsletter.getShop3().getId());
-        Boolean userFeedback = likeNewsletterRepository.getLikeNewsletter(user.getId(), newsletterId).getIsLike();
+        Boolean userFeedback = false;
+        LikeNewsletter likeNewsletter = likeNewsletterRepository.getLikeNewsletter(user.getId(), newsletterId);
+        if(likeNewsletter!=null){
+            userFeedback = likeNewsletter.getIsLike();
+        }
         NewsletterByIdResDto newsletterByIdResDto = NewsletterByIdResDto.ofNewsletterById(newsletter, newsletterImage, newsletterShop1, newsletterShop2, newsletterShop3, userFeedback);
         return newsletterByIdResDto;
     }

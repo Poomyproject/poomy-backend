@@ -22,6 +22,6 @@ public class NewsletterShop {
     @Column(name = "shop_title")
     private String ShopTitle;
 
-    @Column(name = "shop_text")
+    @Column(name = "shop_text", columnDefinition = "TEXT")
     private String ShopText;
 }
