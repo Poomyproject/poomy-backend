@@ -45,5 +45,15 @@ public class JWTUtil {
                 .compact();
     }
 
+    public String createGuestJwt(String guestUserName, String role, Long expiredMs){
+        return Jwts.builder()
+                .claim("googleEmail", guestUserName)
+                .claim("role", role)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .signWith(secretKey)
+                .compact();
+    }
+
 
 }

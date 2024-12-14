@@ -58,6 +58,18 @@ public class UserService {
                 .orElseThrow(() -> new CommonException(BError.NOT_EXIST, "User"));
     }
 
+    public User loginGuest(String guestUserName){
+        Optional<User> user = userRepository.findByNickname(guestUserName);
+        if(user.isEmpty()){
+            User newUser = User.builder()
+                    .googleEmail(guestUserName)
+                    .role(UserRoleType.ROLE_GUEST)
+                    .build();
+            return userRepository.save(newUser);
+        }
+        return user.get();
+    }
+
     public User registerNickname(User user, String nickname){
         boolean existedNickname = checkUserNickname(nickname);
         if(existedNickname){
