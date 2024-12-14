@@ -20,6 +20,13 @@ import java.util.List;
 @RequestMapping("/api/users")
 public interface UserApi {
 
+    @Operation(summary = "게스트 로그인", description = "임시 토큰 생성하여 전달.")
+    @ApiResponse(responseCode = "200", description = "OK",
+            headers = @Header(name = "accessToken", description = "유저 권한을 위한 jwt 토큰")
+    )
+    @PostMapping("/login/guest")
+    ResponseEntity<ApiResult<String>> loginGuest();
+
     @Operation(summary = "구글 로그인", description = "Front-end로부터 id_token을 받아서 Poomy Service 회원가입 및 로그인을 진행한다.")
     @ApiResponse(responseCode = "200", description = "OK",
             headers = @Header(name = "accessToken", description = "유저 권한을 위한 jwt 토큰")

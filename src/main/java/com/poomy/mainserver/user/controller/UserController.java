@@ -6,10 +6,7 @@ import com.poomy.mainserver.spot.entity.Spot;
 import com.poomy.mainserver.spot.service.SpotService;
 import com.poomy.mainserver.user.api.UserApi;
 import com.poomy.mainserver.user.dto.req.*;
-import com.poomy.mainserver.user.dto.res.UserInfoResDto;
-import com.poomy.mainserver.user.dto.res.UserMoodResDto;
-import com.poomy.mainserver.user.dto.res.UserResDto;
-import com.poomy.mainserver.user.dto.res.UserSpotResDto;
+import com.poomy.mainserver.user.dto.res.*;
 import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserMood;
 import com.poomy.mainserver.user.entity.UserSpot;
@@ -25,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @AllArgsConstructor
@@ -47,6 +45,16 @@ public class UserController implements UserApi {
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
                 .body(ApiUtils.success(userMapper.toUserResDto(user)));
+    }
+
+    @Override
+    public ResponseEntity<ApiResult<String>> loginGuest() {
+        String guestUsername = "guest-" + UUID.randomUUID().toString().substring(0, 8);
+        User user = userService.loginGuest(guestUsername);
+        String jwtToken = jwtService.createGuestJwt(user);
+        return ResponseEntity.ok()
+                .header("accessToken", jwtToken)
+                .body(ApiUtils.success(jwtToken));
     }
 
     @Override
