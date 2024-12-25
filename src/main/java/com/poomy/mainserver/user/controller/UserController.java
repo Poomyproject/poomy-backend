@@ -1,8 +1,10 @@
 package com.poomy.mainserver.user.controller;
 
 import com.poomy.mainserver.mood.entity.Mood;
+import com.poomy.mainserver.mood.repository.MoodRepository;
 import com.poomy.mainserver.mood.service.MoodService;
 import com.poomy.mainserver.spot.entity.Spot;
+import com.poomy.mainserver.spot.repository.SpotRepository;
 import com.poomy.mainserver.spot.service.SpotService;
 import com.poomy.mainserver.user.api.UserApi;
 import com.poomy.mainserver.user.dto.req.*;
@@ -11,6 +13,8 @@ import com.poomy.mainserver.user.entity.User;
 import com.poomy.mainserver.user.entity.UserMood;
 import com.poomy.mainserver.user.entity.UserSpot;
 import com.poomy.mainserver.user.mapper.UserMapper;
+import com.poomy.mainserver.user.repository.UserMoodRepository;
+import com.poomy.mainserver.user.repository.UserSpotRepository;
 import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
 import com.poomy.mainserver.user.service.UserService;
@@ -21,7 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Slf4j
@@ -35,6 +41,11 @@ public class UserController implements UserApi {
     private final MoodService moodService;
     private final SpotService spotService;
     private final UserMapper userMapper;
+    private final UserMoodRepository userMoodRepository;
+    private final UserSpotRepository userSpotRepository;
+    private final MoodRepository moodRepository;
+    private final SpotRepository spotRepository;
+
 
     @Override
     public ResponseEntity<ApiResult<UserResDto>> loginGoogle(LoginGoogleReqDto loginGoogleReqDto) {
@@ -52,6 +63,26 @@ public class UserController implements UserApi {
         String guestUsername = "guest-" + UUID.randomUUID().toString().substring(0, 8);
         User user = userService.loginGuest(guestUsername);
         String jwtToken = jwtService.createGuestJwt(user);
+
+        Long number1 = 1L;
+        Long number2 = 2L;
+
+        Mood mood1 = moodRepository.getMood(number1);
+        Mood mood2 = moodRepository.getMood(number2);
+
+        UserMood userMood1 = new UserMood(user, mood1);
+        UserMood userMood2 = new UserMood(user, mood2);
+        userMoodRepository.save(userMood1);
+        userMoodRepository.save(userMood2);
+
+        Spot spot1 = spotRepository.getSpot(number1);
+        Spot spot2 = spotRepository.getSpot(number2);
+
+        UserSpot userSpot1 = new UserSpot(user, spot1);
+        UserSpot userSpot2 = new UserSpot(user, spot2);
+        userSpotRepository.save(userSpot1);
+        userSpotRepository.save(userSpot2);
+
         return ResponseEntity.ok()
                 .header("accessToken", jwtToken)
                 .body(ApiUtils.success(jwtToken));

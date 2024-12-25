@@ -30,4 +30,8 @@ public class UserSpot extends BaseTime {
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
+    public UserSpot(User user, Spot spot) {
+        this.user = user;
+        this.spot = spot;
+    }
 }

@@ -30,4 +30,8 @@ public class UserMood extends BaseTime {
     @JoinColumn(name = "mood_id")
     private Mood mood;
 
+    public UserMood(User user, Mood mood) {
+        this.user = user;
+        this.mood = mood;
+    }
 }
