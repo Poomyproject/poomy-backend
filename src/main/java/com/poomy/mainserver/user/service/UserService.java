@@ -99,8 +99,6 @@ public class UserService {
         User user = getUser();
         userMoodRepository.deleteAllByUser(user);
 
-
-
         List<UserMood> userMoods = moods.stream()
                 .map(mood -> userMapper.toUserMood(user, mood))
                 .toList();
