@@ -15,6 +15,7 @@ import com.poomy.mainserver.user.entity.UserSpot;
 import com.poomy.mainserver.user.mapper.UserMapper;
 import com.poomy.mainserver.user.repository.UserMoodRepository;
 import com.poomy.mainserver.user.repository.UserSpotRepository;
+import com.poomy.mainserver.user.service.AppleService;
 import com.poomy.mainserver.user.service.GoogleService;
 import com.poomy.mainserver.user.service.JWTService;
 import com.poomy.mainserver.user.service.UserService;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -41,6 +43,7 @@ public class UserController implements UserApi {
     private final MoodService moodService;
     private final SpotService spotService;
     private final UserMapper userMapper;
+    private final AppleService appleService;
     private final UserMoodRepository userMoodRepository;
     private final UserSpotRepository userSpotRepository;
     private final MoodRepository moodRepository;
@@ -96,6 +99,31 @@ public class UserController implements UserApi {
                 .header("accessToken", jwtToken)
                 .body(ApiUtils.success(userMapper.toUserResDto(user)));
     }
+
+    @Override
+    public ResponseEntity<ApiResult<UserResDto>> loginApple(LoginAppleReqDto loginAppleReqDto) {
+        String authorizationCode = loginAppleReqDto.getAuthorizationCode();
+
+        // Apple 서버에서 토큰 요청 및 응답 처리
+        Map<String, Object> tokenResponse = appleService.getTokenFromApple(authorizationCode);
+        String appleEmail = (String) tokenResponse.get("email");
+        String appleSub = (String) tokenResponse.get("sub");
+
+        // 두 개의 파라미터를 전달
+        User user = userService.loginApple(appleEmail, appleSub);
+
+        // JWT 생성
+        String jwtToken = jwtService.createJwt(user);
+
+        // 응답 생성
+        UserResDto userResDto = userMapper.toUserResDto(user);
+        ApiResult<UserResDto> successResponse = new ApiResult<>(true, userResDto);
+
+        return ResponseEntity.ok()
+                .header("accessToken", jwtToken)
+                .body(successResponse);
+    }
+
 
     @Override
     public ResponseEntity<ApiResult<UserResDto>> registerNickname(NicknameReqDto nicknameReqDto) {
