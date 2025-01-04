@@ -24,6 +24,9 @@ public class User extends BaseTime {
     @Column(name = "google_email", unique = true, nullable = false, length = 63)
     private String googleEmail;
 
+    @Column(name = "apple_email", unique = true, nullable = true, length = 63)
+    private String appleEmail;
+
     @Setter
     @Column(unique = true, length = 5)
     private String nickname;

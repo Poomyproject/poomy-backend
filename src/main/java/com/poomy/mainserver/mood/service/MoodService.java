@@ -41,5 +41,4 @@ public class MoodService {
             return moodNmPrefResDto;
         }).toList();
     }
-
 }

@@ -28,4 +28,12 @@ public class JWTService {
         return "Bearer "+token;
     }
 
+    public String createAppleJwt(User user) {
+        String appleEmail = user.getGoogleEmail(); // Apple 이메일도 googleEmail 필드에 저장
+        String role = user.getRole().name();
+        String token = jwtUtil.createJwt(appleEmail, role, 1000 * 60 * 60L); // JWT 생성
+        return "Bearer " + token;
+    }
+
+
 }

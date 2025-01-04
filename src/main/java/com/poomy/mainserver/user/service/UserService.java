@@ -24,9 +24,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -52,6 +54,31 @@ public class UserService {
         }
         return user.get();
     }
+
+    public User loginApple(String appleEmail, String appleSub) {
+        // Apple 이메일이 없을 경우 더미 이메일 생성
+        String emailToStore = (appleEmail != null) ? appleEmail : "apple_user_" + appleSub + "@example.com";
+
+        // 이메일로 사용자 조회
+        Optional<User> user = userRepository.findByGoogleEmail(emailToStore);
+
+        if (user.isEmpty()) {
+            // 새로운 사용자 생성
+            User newUser = User.builder()
+                    .googleEmail(emailToStore) // 이메일 주소에 appleSub 포함
+                    .role(UserRoleType.ROLE_USER) // 기본 역할 설정
+                    .nickname("유저" + UUID.randomUUID().toString().substring(0, 2)) // 기본 닉네임 생성
+                    .build();
+
+            // 새 사용자 저장
+            return userRepository.save(newUser);
+        }
+
+        return user.get();
+    }
+
+
+
 
     public User loginPoomy(String googleEmail){
         return userRepository.findByGoogleEmail(googleEmail)

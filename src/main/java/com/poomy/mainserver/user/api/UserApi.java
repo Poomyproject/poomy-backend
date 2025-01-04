@@ -20,6 +20,13 @@ import java.util.List;
 @RequestMapping("/api/users")
 public interface UserApi {
 
+    @Operation(summary = "애플 로그인", description = "애플 로그인 시 identityToken을 받아 회원가입 및 로그인을 진행한다.")
+    @ApiResponse(responseCode = "200", description = "OK",
+            headers = @Header(name = "accessToken", description = "유저 권한을 위한 jwt 토큰")
+    )
+    @PostMapping("/login/apple")
+    ResponseEntity<ApiResult<UserResDto>> loginApple(@Valid @RequestBody LoginAppleReqDto loginAppleReqDto);
+
     @Operation(summary = "게스트 로그인", description = "임시 토큰 생성하여 전달.")
     @ApiResponse(responseCode = "200", description = "OK",
             headers = @Header(name = "accessToken", description = "유저 권한을 위한 jwt 토큰")
